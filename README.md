@@ -14,7 +14,7 @@ démarre avec la prémisse suivante :
 > complexités de votre processus d'après-vente ailleurs sans affecter 
 > votre site e-commerce.
 
-[Image]
+![Image 1](https://raw.githubusercontent.com/CPLepage/OrderMG-core/main/Resources/Images/Image-1.jpg "Image 1")
 
 Simple use cases :
 
