@@ -3,9 +3,9 @@ A lightweight and highly adaptable post-sale order management app
 
 ## Description
 
-E-commerce platforms are extremely well designed to generate orders.
+E-commerce platforms are extremely well-designed to generate orders.
 They are built to allow customers to complete a transaction.
-It is after this moment that, as a seller, you must route the orders to the customers. 
+Afterwards, as a seller, you must route the orders to the customers. 
 Each company having its unique way of doing things therefore needs to adapt its tools to its process.
 Plugins, scripts, external applications can slow down and weigh down your e-commerce site. 
 Order MG's design starts with the following premise:
