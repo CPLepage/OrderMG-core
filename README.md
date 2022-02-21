@@ -42,9 +42,9 @@ inside an already convoluted e-commerce platform.
 * Documentation
   * Getting Started guide
   * Wikis
-  * Sample Projects
-    * Core Setup
-    * Plugins development
+* Sample Projects
+  * Core initial setup
+  * Plugins development
 
 ### Misc
 
