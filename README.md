@@ -3,16 +3,15 @@ A lightweight and highly adaptable post-sale order management app
 
 ## Description
 
-Les plateformes d'e-commerces sont extrêment bien désigner pour générer des commandes.
-Elle sont contruites pour permettre aux clients d'effectuer une transaction.
-C'est suite à ce moment, qu'en tant que vendeur, vous devez acheminer les commandes
-jusqu'aux clients. Chaque entreprise ayant sa manière unique de faire a donc besoin 
-d'adapter ses outils à son processus. Plugin, scripts, applications externes,
-peuvent venir ralentir et alourdir votre platforme d'e-commerce. Le design d'Order MG 
-démarre avec la prémisse suivante : 
-> Laisser le site e-commerce faire les transactions et appliquer les logiques et 
-> complexités de votre processus d'après-vente ailleurs sans affecter 
-> votre site e-commerce.
+E-commerce platforms are extremely well designed to generate orders.
+They are built to allow customers to complete a transaction.
+It is after this moment that, as a seller, you must route the orders to the customers. 
+Each company having its unique way of doing things therefore needs to adapt its tools to its process.
+Plugins, scripts, external applications can slow down and weigh down your e-commerce site. 
+Order MG's design starts with the following premise:
+> Let the e-commerce platform do the transactions and 
+> apply the logics and complexities of your after-sales processes elsewhere 
+> without affecting your e-commerce site performances.
 
 ![Image 1](https://raw.githubusercontent.com/CPLepage/OrderMG-core/main/Resources/Images/Image-1.jpg "Image 1")
 
