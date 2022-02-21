@@ -10,7 +10,7 @@ Each company having its unique way of doing things therefore needs to adapt its 
 Plugins, scripts, external applications can slow down and weigh down your e-commerce site. 
 Order MG's design starts with the following premise:
 > Let the e-commerce platform do the transactions and 
-> apply the logics and complexities of your after-sales processes elsewhere 
+> apply the logics and complexities of your after-sales processes within this app 
 > without affecting your e-commerce site performances.
 
 ![Image 1](https://raw.githubusercontent.com/CPLepage/OrderMG-core/main/Resources/Images/Image-1.jpg "Image 1")
@@ -29,11 +29,26 @@ inside an already convoluted e-commerce platform.
 
 ## Stack
 
-* React
-* express
-* Typescript
-* esbuild
-* MongoDB
-* Docker
+* [React](https://github.com/facebook/react) : Frontend applications
+* [express](https://github.com/expressjs/express) : Backend routing
+* [NodeJS](https://nodejs.org/) : Everywhere
+* [Typescript](https://github.com/microsoft/TypeScript) : Everywhere
+* [esbuild](https://github.com/evanw/esbuild) : Build tool, Typescript transpiler
+* [MongoDB](https://github.com/mongodb/mongo) : Database
+* [Docker](https://www.docker.com/) : Deployment
 
+## Roadmap
+
+* Documentation
+  * Getting Started guide
+  * Wikis
+  * Sample Projects
+    * Core Setup
+    * Plugins development
+
+### Misc
+
+##### Setup local SSL
+Useful to test mobile camera access, and few features needing `https` for permissions   
+https://www.freecodecamp.org/news/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec/
 
