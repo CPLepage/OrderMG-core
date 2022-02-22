@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./",
+        "lib": [
+            "ES2020"
+        ],
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "paths": {
+            "@shared/*": ["../Shared/*"]
+        },
+        "plugins": [
+            { "transform": "typescript-transform-paths" }
+        ]
+    }
+}

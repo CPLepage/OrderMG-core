@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./src",
+        "esModuleInterop": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "lib": [
+            "ES2020",
+            "dom"
+        ],
+        "jsx": "react",
+        "paths": {
+            "@shared/*": ["../Shared/*"]
+        }
+    }
+}

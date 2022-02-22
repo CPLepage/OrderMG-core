@@ -1,0 +1,32 @@
+{
+  "name": "ordermg-core",
+  "version": "0.0.0",
+  "description": "A lightweight and highly adaptable post-sale order management app",
+  "main": "index.js",
+  "scripts": {
+    "build": "node Server/build && node WebApp/build",
+    "start": "node dist/index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CPLepage/OrderMG-core.git"
+  },
+  "keywords": [
+    "order",
+    "management",
+    "app"
+  ],
+  "author": "CP Lepage",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/CPLepage/OrderMG-core/issues"
+  },
+  "homepage": "https://github.com/CPLepage/OrderMG-core#readme",
+  "dependencies": {
+    "@types/express": "^4.17.13",
+    "esbuild": "^0.14.23",
+    "express": "^4.17.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
