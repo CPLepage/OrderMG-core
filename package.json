@@ -2,7 +2,7 @@
   "name": "ordermg-core",
   "version": "0.0.0",
   "description": "A lightweight and highly adaptable post-sale order management app",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "node Server/build && node WebApp/build",
     "start": "node dist/index"

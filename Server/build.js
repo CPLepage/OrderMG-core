@@ -1,6 +1,11 @@
 const esbuild = require("esbuild");
 const path = require("path");
 
+let define = {};
+for (const k in process.env) {
+    define[`process.env.${k}`] = JSON.stringify(process.env[k])
+}
+
 (async function(){
     const buildResult = await esbuild.build({
         entryPoints: [ path.resolve(__dirname, "src/index.ts") ],
@@ -11,6 +16,7 @@ const path = require("path");
         bundle: true,
         minify: process.env.NODE_ENV === 'production',
         sourcemap: process.env.NODE_ENV !== 'production',
+        define
     });
 
     if(buildResult.errors.length === 0)

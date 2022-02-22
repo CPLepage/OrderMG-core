@@ -26,9 +26,9 @@ const folderOutput = path.resolve(__dirname, "../dist/webapp");
 
     // setup index.html file
     const versionString = version.getCurrentVersion() + "-" + version.getCurrentGITHash();
-    const indexHTMLContent = fs.readFileSync(folderSource + "/index.html", {encoding: "utf-8"})
-        .replace("{VERSION}", versionString);
-    fs.writeFileSync(folderOutput + "/index.html", indexHTMLContent);
+    const indexHTMLContent = fs.readFileSync(folderSource + "/index.html", {encoding: "utf-8"});
+    const indexHTMLContentUpdated = indexHTMLContent.replace("{VERSION}", versionString);
+    fs.writeFileSync(folderOutput + "/index.html", indexHTMLContentUpdated);
 
     console.log('\x1b[32m%s\x1b[0m', "Completed WebApp build");
 })()
