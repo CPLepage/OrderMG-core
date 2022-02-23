@@ -12,7 +12,7 @@ router.get("/order", async function(req, res) {
     if(orders instanceof Promise)
         return res.json(await orders);
 
-    return orders;
+    return res.json(orders);
 });
 
 export default router;
