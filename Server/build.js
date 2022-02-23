@@ -30,6 +30,8 @@ for (const k in process.env) {
             }
         }],
 
+        tsconfig: path.resolve(__dirname, "tsconfig.json"),
+
         bundle: true,
         minify: process.env.NODE_ENV === 'production',
         sourcemap: process.env.NODE_ENV !== 'production',
