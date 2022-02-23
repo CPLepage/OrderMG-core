@@ -2,9 +2,17 @@ import {Router} from "express";
 
 const router = Router();
 
-declare function getAllOrders(): any[];
-router.get("/order", (req, res) => {
-    return res.json(typeof getAllOrders === 'undefined' ? [] : getAllOrders());
+declare function getAllOrders(): any[] | Promise<any[]>;
+router.get("/order", async function(req, res) {
+    if(typeof getAllOrders === 'undefined')
+        return res.json([]);
+
+    const orders = getAllOrders();
+
+    if(orders instanceof Promise)
+        return res.json(await orders);
+
+    return orders;
 });
 
 export default router;
