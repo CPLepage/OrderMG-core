@@ -15,8 +15,7 @@ for (const k in process.env) {
 const sourcePath = path.resolve(__dirname, "src");
 
 const overrideableMethods = [];
-let overrideableMethodsRegExp;
-let overrideableMethodsTypes = {};
+let overrideableMethodsRegex;
 
 (async function(){
     const buildResult = await esbuild.build({
@@ -44,35 +43,29 @@ let overrideableMethodsTypes = {};
                         methodName = methodName[0];
                         methodName = methodName.substring(8, methodName.length - 1).trim();
 
-                        let typeofReturn = declaration.match(/typeof.*;/g);
-
-                        if(!typeofReturn)
-                            return console.error("wrong method type declaration");
-
-                        typeofReturn = typeofReturn[0];
-                        typeofReturn = typeofReturn.substring(6, typeofReturn.length - 1).trim();
-
                         overrideableMethods.push(methodName);
-                        overrideableMethodsTypes[methodName] = typeofReturn;
                     });
 
-                    overrideableMethodsRegExp = new RegExp(`(?<!global.)(${overrideableMethods.join("|")})`,"g");
+                    overrideableMethodsRegex = new RegExp(`(?<!global\.)(await\\s*)?(${overrideableMethods.join("|")})\\(((.|\\r?\\n)*?)\\)`,"g");
+                    console.log(overrideableMethodsRegex)
 
-                    fs.writeFileSync(serviceLoaderPath, servicesFiles.map(file => "import \"" + servicesPath + "/" + file + "\"").join("\r\n"));
+
+                    // fs.writeFileSync(serviceLoaderPath, servicesFiles.map(file => "import \"" + servicesPath + "/" + file + "\"").join("\r\n"));
                 });
 
                 build.onLoad({ filter:  /\.ts$/}, async (args) => {
                     const content = await fs.promises.readFile(args.path, 'utf8');
                     return {
-                        contents: content.replace(overrideableMethodsRegExp, (methodToOverride) => {
-                            return `await overrideable(${methodToOverride})`;
+                        contents: content.replace(overrideableMethodsRegex, (methodToOverride) => {
+                            console.log(methodToOverride);
+                            return `typeof ${methodToOverride.match(/\w*\(/g)[0].slice(0,-1)} === 'undefined' ? null : ${methodToOverride}`;
                         }),
                         loader: "ts"
                     }
                 });
 
                 build.onEnd(() => {
-                    fs.writeFileSync(serviceLoaderPath, "");
+                    // fs.writeFileSync(serviceLoaderPath, "");
                 });
             }
         }],

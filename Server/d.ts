@@ -1,1 +1,1 @@
-declare function getAllOrders(): typeof Array;
+declare function getAllOrders(): Promise<any[]>;

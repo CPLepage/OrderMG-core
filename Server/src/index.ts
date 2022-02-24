@@ -1,7 +1,6 @@
 import express from "express";
 import path from "path";
 import Orders from "src/Services/Orders";
-import "src/overrideable";
 import "src/servicesLoader";
 
 const app = express();
