@@ -47,17 +47,14 @@ let overrideableMethodsRegex;
                     });
 
                     overrideableMethodsRegex = new RegExp(`(?<!global\.)(await\\s*)?(${overrideableMethods.join("|")})\\(((.|\\r?\\n)*?)\\)`,"g");
-                    console.log(overrideableMethodsRegex)
 
-
-                    // fs.writeFileSync(serviceLoaderPath, servicesFiles.map(file => "import \"" + servicesPath + "/" + file + "\"").join("\r\n"));
+                    fs.writeFileSync(serviceLoaderPath, servicesFiles.map(file => "import \"" + servicesPath + "/" + file + "\"").join("\r\n"));
                 });
 
                 build.onLoad({ filter:  /\.ts$/}, async (args) => {
                     const content = await fs.promises.readFile(args.path, 'utf8');
                     return {
                         contents: content.replace(overrideableMethodsRegex, (methodToOverride) => {
-                            console.log(methodToOverride);
                             return `typeof ${methodToOverride.match(/\w*\(/g)[0].slice(0,-1)} === 'undefined' ? null : ${methodToOverride}`;
                         }),
                         loader: "ts"
@@ -65,7 +62,7 @@ let overrideableMethodsRegex;
                 });
 
                 build.onEnd(() => {
-                    // fs.writeFileSync(serviceLoaderPath, "");
+                    fs.writeFileSync(serviceLoaderPath, "");
                 });
             }
         }],
