@@ -5,7 +5,10 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "node Server/build && node WebApp/build",
-    "start": "node dist/index"
+    "prewatch": "npm run docker",
+    "watch": "node Server/build --watch & node WebApp/build --watch",
+    "start": "node dist/index",
+    "docker": "docker-compose -p ordermg-core up -d"
   },
   "repository": {
     "type": "git",
@@ -25,6 +28,7 @@
   "dependencies": {
     "@faker-js/faker": "^6.0.0-alpha.7",
     "@types/express": "^4.17.13",
+    "@types/react": "^17.0.39",
     "esbuild": "^0.14.23",
     "express": "^4.17.3",
     "glob": "^7.2.0",

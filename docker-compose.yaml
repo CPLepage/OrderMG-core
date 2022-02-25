@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME:
+      MONGO_INITDB_ROOT_PASSWORD:
+
+  node:
+    image: node:15-alpine
+    working_dir: /app
+    command: [ "npm", "run", "start" ]
+    ports:
+      - "9005:9005"
+    volumes:
+      - ./:/app
+    depends_on:
+      - mongo
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=false
+      - ME_CONFIG_MONGODB_AUTH_DATABASE=ordermg
+      - ME_CONFIG_MONGODB_AUTH_USERNAME=
+      - ME_CONFIG_MONGODB_AUTH_PASSWORD=
+      - ME_CONFIG_BASICAUTH_USERNAME=mongo
+      - ME_CONFIG_BASICAUTH_PASSWORD=mongo123
+    depends_on:
+      - mongo
+    ports:
+      - "8081:8081"

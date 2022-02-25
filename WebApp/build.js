@@ -3,6 +3,8 @@ const path = require("path");
 const fs = require("fs");
 const version = require(path.resolve(__dirname, "../version"));
 
+const watcher = process.argv.includes("--watch") ? require("./watch") : false;
+
 // folder paths
 const folderSource = path.resolve(__dirname, "src");
 const folderOutput = path.resolve(__dirname, "../dist/webapp");
@@ -14,6 +16,8 @@ const folderOutput = path.resolve(__dirname, "../dist/webapp");
 
         format: "esm",
         splitting: true,
+
+        watch: watcher,
 
         bundle: true,
         minify: process.env.NODE_ENV === 'production',
