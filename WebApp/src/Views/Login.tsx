@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 export default class extends React.Component {
     usernameRef = React.createRef<HTMLInputElement>();
@@ -10,14 +11,15 @@ export default class extends React.Component {
         const username = this.usernameRef.current.value;
         const password = this.passwordRef.current.value;
 
-        const response = await fetch(`/api/login?username=${username}&password=${password}`, {
-            method: 'POST'
-        });
+        const token: Token = (await axios.get(`/auth?username=${username}&password=${password}`)).data;
 
-        const tokenObject = await response.json();
-        if(tokenObject && tokenObject.token){
-            window.localStorage.token = tokenObject.token;
-            return window.location.reload();
+        if(token && token.accessToken){
+            window.localStorage.setItem("accessToken", token.accessToken);
+
+            if(token.refreshToken)
+                window.localStorage.setItem("refreshToken", token.refreshToken);
+
+            window.location.reload();
         }
     }
 

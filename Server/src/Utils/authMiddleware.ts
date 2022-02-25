@@ -1,13 +1,13 @@
 import {NextFunction, Request, Response} from "express";
-import {getTokenFromRequest} from "src/Utils/utils";
+import {getAccessTokenFromRequest} from "src/Utils/utils";
 
 export async function authMiddleware(req: Request, res: Response, next: NextFunction){
-    const token = getTokenFromRequest(req);
+    const accessToken = getAccessTokenFromRequest(req);
     //@overrideable
-    const checkAuth = await auth({token: token});
+    const checkAuth = await auth(accessToken);
 
     if(checkAuth === null || checkAuth)
         return next();
 
-    return res.status(401).json({error: "Unauthorized"});
+    return res.json({statusCode: 401, error: "Unauthorized"});
 }

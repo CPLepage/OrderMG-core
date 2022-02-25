@@ -11,6 +11,7 @@
         "jsx": "react",
         "paths": {
             "@shared/*": ["../Shared/*"]
-        }
+        },
+        "types": ["../Shared/Types/types"]
     }
 }

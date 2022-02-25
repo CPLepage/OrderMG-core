@@ -1,8 +1,8 @@
 import {Request} from "express";
 
-export function getTokenFromRequest(request: Request): string{
-    if(request.query.token)
-        return request.query.token as string;
+export function getAccessTokenFromRequest(request: Request): string{
+    if(request.query.accessToken)
+        return request.query.accessToken as string;
 
-    return request.headers.token as string
+    return request.headers.authorization as string
 }

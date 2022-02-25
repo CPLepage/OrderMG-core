@@ -6,12 +6,9 @@
         ],
         "moduleResolution": "node",
         "esModuleInterop": true,
-        "experimentalDecorators": true,
         "paths": {
             "@shared/*": ["../Shared/*"]
         },
-        "plugins": [
-            { "transform": "typescript-transform-paths" }
-        ]
+        "types": ["../Shared/Types/types"]
     }
 }
