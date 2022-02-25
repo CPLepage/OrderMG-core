@@ -3,6 +3,7 @@ import {getTokenFromRequest} from "src/Utils/utils";
 
 export async function authMiddleware(req: Request, res: Response, next: NextFunction){
     const token = getTokenFromRequest(req);
+    //@overrideable
     const checkAuth = await auth({token: token});
 
     if(checkAuth === null || checkAuth)

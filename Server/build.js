@@ -56,7 +56,8 @@ let overrideableMethodsRegex;
                         overrideableMethods.push(methodName);
                     });
 
-                    overrideableMethodsRegex = new RegExp(`(?<!global\.)(await\\s*)?(${overrideableMethods.join("|")})\\(((.|\\r?\\n)*?)\\)`,"g");
+                    overrideableMethodsRegex = new RegExp(`@overrideable.*(\r?\n).*(${overrideableMethods.join("|")})\\(((.|\\r?\\n)*?)\\)`,"g");
+                    // overrideableMethodsRegex = new RegExp(`(?<!global\.)(await\\s*)?(${overrideableMethods.join("|")})\\(((.|\\r?\\n)*?)\\)`,"g");
                 });
 
                 build.onLoad({ filter:  /\.ts$/}, async (args) => {
@@ -68,7 +69,11 @@ let overrideableMethodsRegex;
 
                     return {
                         contents: content.replace(overrideableMethodsRegex, (methodToOverride) => {
-                            return `(typeof ${methodToOverride.match(/\w*\(/g)[0].slice(0,-1)} === 'undefined' ? null : ${methodToOverride})`;
+                            const regex = new RegExp(`(await\\s*)?(${overrideableMethods.join("|")})\\(((.|\\r?\\n)*?)\\)`,"g");
+
+                            return methodToOverride.replace(regex, (methodCall) => {
+                                return `(typeof ${methodCall.match(/\w*\(/g)[0].slice(0,-1)} === 'undefined' ? null : ${methodCall})`
+                            });
                         }),
                         loader: "ts"
                     }
