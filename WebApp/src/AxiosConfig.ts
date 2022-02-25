@@ -78,7 +78,7 @@ async function axiosResponseInterceptor(response: AxiosResponse) {
     if(!token || !token.accessToken){
         window.localStorage.removeItem('accessToken');
         window.localStorage.removeItem('refreshToken');
-        return window.location.href = "/";
+        return window.location.href = "/login";
     }
 
     // keep new tokens

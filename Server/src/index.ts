@@ -5,11 +5,15 @@ import Orders from "src/Services/Orders";
 
 const app = express();
 
-app.use("/", express.static(path.resolve(__dirname, './webapp')));
-
 const basePath = "/api";
 app.use(basePath + "/auth", Auth);
 app.use(basePath + "/order", Orders);
+
+const webappFolder = path.resolve(__dirname, './webapp');
+app.use(express.static(webappFolder));
+app.get("*", function(req, res){
+    return res.sendFile(webappFolder + "/index.html");
+});
 
 const listenPort = process.env.PORT ?? 9005;
 app.listen(listenPort);

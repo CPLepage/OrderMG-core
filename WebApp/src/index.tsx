@@ -1,26 +1,32 @@
 import React from 'react';
 import {render} from "react-dom";
-import Login from "Views/Login";
 import {renderPromise} from "Utils/utils";
 import axios from "axios";
-import Router from "ViewRouter/Router";
 
 const renderContainer = document.getElementById("root");
 
-async function main(){
+// set baseURL for Services and determines whether to login ou start the app
+function main(){
     axios.defaults.baseURL = "/api";
 
-    const savedAccessToken = window.localStorage.getItem("accessToken");
+    return window.location.pathname.match(/^\/login\/?$/) ? login() : start();
+}
 
-    if(!savedAccessToken)
-        return render(<Login />, renderContainer);
+async function login(){
+    const LoginView = (await import("Login")).default;
+    render(<LoginView />, renderContainer);
+}
+
+async function start(){
+    const savedAccessToken = window.localStorage.getItem("accessToken");
 
     await renderPromise("Authenticating", renderContainer);
 
     const axiosConfigurator = (await import("AxiosConfig")).default
     await axiosConfigurator(savedAccessToken);
 
-    render(<Router />, renderContainer);
+    const ViewRouter = (await import("ViewRouter/Router")).default;
+    render(<ViewRouter />, renderContainer);
 }
 
 main();

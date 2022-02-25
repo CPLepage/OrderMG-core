@@ -19,7 +19,7 @@ export default class extends React.Component {
             if(token.refreshToken)
                 window.localStorage.setItem("refreshToken", token.refreshToken);
 
-            window.location.reload();
+            window.location.href = "/";
         }
     }
 
