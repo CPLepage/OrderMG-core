@@ -18,7 +18,6 @@ global.getOrders = function(){
     return cachedFakedOrder;
 }
 
-
 global.getOrder = function(orderID){
     if(!cachedFakedOrder)
         return null;
