@@ -11,7 +11,7 @@ const folderOutput = path.resolve(__dirname, "../dist/webapp");
 
 (async function(){
     const buildResult = await esbuild.build({
-        entryPoints: [ folderSource + "/index.tsx", folderSource + "/Login.tsx" ],
+        entryPoints: [ folderSource + "/index.tsx"],
         outdir: folderOutput,
 
         format: "esm",

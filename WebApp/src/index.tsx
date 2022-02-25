@@ -12,19 +12,23 @@ function main(){
     return window.location.pathname.match(/^\/login\/?$/) ? login() : start();
 }
 
+// async import login and render
 async function login(){
     const LoginView = (await import("Login")).default;
     render(<LoginView />, renderContainer);
 }
 
+// start app!
 async function start(){
     const savedAccessToken = window.localStorage.getItem("accessToken");
 
     await renderPromise("Authenticating", renderContainer);
 
+    // configure axios, it sets up the accessToken
     const axiosConfigurator = (await import("AxiosConfig")).default
     await axiosConfigurator(savedAccessToken);
 
+    // async import the view router and render
     const ViewRouter = (await import("ViewRouter/Router")).default;
     render(<ViewRouter />, renderContainer);
 }

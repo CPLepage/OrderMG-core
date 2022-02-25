@@ -6,7 +6,7 @@ global.login = async function(username: string, password: string) {
         {accessToken: Date.now(), refreshToken: fakeRefreshToken} : null;
 };
 
-// we'll invalidate our accessToken ten seconds to test refreshing
+// we'll invalidate our accessToken every ten seconds to test refreshing
 global.auth = async function(accessToken: string) {
     const accessTokenTimestamp = Number(accessToken);
     return Date.now() - accessTokenTimestamp < 1000 * 10;

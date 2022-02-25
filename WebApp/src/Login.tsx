@@ -5,6 +5,17 @@ export default class extends React.Component {
     usernameRef = React.createRef<HTMLInputElement>();
     passwordRef = React.createRef<HTMLInputElement>();
 
+    componentDidMount() {
+        return this.checkIfAlreadyLoggedIn();
+    }
+
+    async checkIfAlreadyLoggedIn(){
+        const accessToken = window.localStorage.getItem("accessToken");
+        const validation = (await axios.get("/auth/validate", {headers: {authorization: accessToken}})).data;
+        if(validation.valid)
+            return window.location.href = "/";
+    }
+
     async login(event){
         event.preventDefault();
 
