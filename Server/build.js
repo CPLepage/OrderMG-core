@@ -38,7 +38,7 @@ let overrideableMethodsRegex;
             setup(build) {
                 build.onStart(() => {
                     // scan declarations
-                    const declarations = fs.readFileSync(path.resolve(__dirname, "d.ts"), {encoding: "utf-8"});
+                    const declarations = fs.readFileSync(path.resolve(__dirname, "overrideable.d.ts"), {encoding: "utf-8"});
                     const declaredMethods = declarations.match(/declare function.*;/g);
 
                     declaredMethods.forEach(declaration => {
@@ -61,6 +61,7 @@ let overrideableMethodsRegex;
                 });
 
                 build.onLoad({ filter:  /\.ts$/}, async (args) => {
+                    // replace overridable methods with ternary check
                     // replace overridable methods with ternary check
                     let content = await fs.promises.readFile(args.path, 'utf8');
 
