@@ -9,11 +9,16 @@ function generateOrder(){
     }
 }
 
+const ordersCount = 25;
 let cachedFakedOrder;
 
 global.getOrders = function(){
+     return ordersCount;
+}
+
+global.getOrders = function(){
     if(!cachedFakedOrder)
-        cachedFakedOrder = new Array(25).fill(null).map(() => generateOrder());
+        cachedFakedOrder = new Array(ordersCount).fill(null).map(() => generateOrder());
 
     return cachedFakedOrder;
 }

@@ -54,7 +54,7 @@ async function axiosResponseInterceptor(response: AxiosResponse) {
         JSON.parse(await blobToText(response.data)) : response.data;
 
     // the failed signal isn't present, we're good
-    if(dataTest.statusCode !== 401)
+    if(!dataTest || dataTest.statusCode !== 401)
         return response;
 
     // keep our failed request to retry after refreshing accessToken
@@ -70,7 +70,6 @@ async function axiosResponseInterceptor(response: AxiosResponse) {
     accessTokenRefreshingGuard = true;
 
     // try to refresh token
-    const accessToken = window.localStorage.getItem("accessToken");
     const refreshToken = window.localStorage.getItem("refreshToken");
     const token: Token = await refreshAccessToken(refreshToken);
 

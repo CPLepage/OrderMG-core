@@ -1,7 +1,6 @@
 import React from "react";
+import OrdersList from "Modules/OrdersList/OrdersList";
 
-export default class extends React.Component {
-    render(){
-        return <h1>Welcome to OrderMG Full View</h1>;
-    }
+export default function(){
+    return <OrdersList />;
 }

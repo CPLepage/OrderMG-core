@@ -6,6 +6,12 @@ const router = Router();
 // protect behind auth
 router.use("*", authMiddleware);
 
+// get orders count
+router.get("/count", async function(req, res) {
+    //@overrideable
+    return res.json(await getOrdersCount(req.query));
+});
+
 // get all orders
 router.get("/", async function(req, res) {
     //@overrideable
