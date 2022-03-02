@@ -7,7 +7,7 @@ import OrderItem from "Modules/OrdersList/OrderItem";
 export default class extends React.Component{
     componentDidMount() {
         if(!OrderStore.instance)
-            new OrderStore();
+            return new OrderStore(this.forceUpdate.bind(this));
 
         OrderStore.instance.subscribe(this.forceUpdate.bind(this));
     }

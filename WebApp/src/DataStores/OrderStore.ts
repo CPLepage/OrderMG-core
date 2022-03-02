@@ -6,8 +6,12 @@ export default class OrderStore {
     private subscribers: Set<() => void> = new Set();
     orders: Order[];
 
-    constructor() {
+    constructor(subscriber: () => void = null) {
         OrderStore.instance = this;
+
+        if(subscriber)
+            this.subscribe(subscriber);
+
         this.init();
     }
 
