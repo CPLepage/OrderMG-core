@@ -1,27 +1,35 @@
-import {Router} from "express";
 import {authMiddleware} from "src/Utils/authMiddleware";
+import Service from "src/Services/Service";
 
-const router = Router();
 
-// protect behind auth
-router.use("*", authMiddleware);
+export default class Orders extends Service {
+    register(){
+        const router = super.register();
 
-// get orders count
-router.get("/count", async function(req, res) {
-    //@overrideable
-    return res.json(await getOrdersCount(req.query));
-});
+        // protect behind auth
+        router.use("*", authMiddleware);
 
-// get all orders
-router.get("/", async function(req, res) {
-    //@overrideable
-    return res.json(await getOrders(req.query));
-});
+        // get orders count
+        router.get("/count", async (req, res) => {
+            return res.json(await this.count(req.query));
+        });
 
-// get a single order
-router.get("/:orderID", async function(req, res){
-    //@overrideable
-    return res.json(await getOrder(Number(req.params.orderID)));
-});
+        // get all orders
+        router.get("/", async (req, res) => {
+            return res.json(await this.list(req.query));
+        });
 
-export default router;
+        // get a single order
+        router.get("/:orderID", async (req, res) => {
+            return res.json(await this.get(Number(req.params.orderID)));
+        });
+
+        return router;
+    }
+
+    async count(options: any): Promise<number> { return 0 };
+
+    async list(options: any): Promise<Order[]> { return [] };
+
+    async get(id: number): Promise<Order> { return null };
+}

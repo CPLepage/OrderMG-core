@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "baseUrl": "../Server",
+        "lib": [
+            "ES2020"
+        ],
+        "types": ["../Shared/Types/types"]
+    }
+}
