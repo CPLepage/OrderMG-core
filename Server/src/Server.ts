@@ -1,20 +1,22 @@
 import express from "express";
-import Orders from "src/Services/Orders";
-import Auth from "src/Services/Auth";
 import * as path from "path";
 import {ServiceEnum} from "src/Services/Enum";
 import Service from "src/Services/Service";
+import Orders from "src/Services/Orders";
+import Auth from "src/Services/Auth";
 
 export default class Server {
-    static services: Map<string, Service> = new Map(Object.entries({
-        [ServiceEnum.ORDERS]:   new Orders(),
-        [ServiceEnum.AUTH]  :   new Auth()
-    }));
+    static services: Map<ServiceEnum, Service>;
     static app = express();
 
-    static registerServices(){
+    // default services
+    constructor() {
+        Server.services.set(ServiceEnum.ORDERS, new Orders());
+        Server.services.set(ServiceEnum.AUTH,   new Auth());
+    }
+
+    static loadServices(){
         const basePath = "/api";
-        console.log(Server.services)
         Server.services.forEach((service, serviceName) => {
             Server.app.use(basePath + "/" + serviceName, Server.services.get(serviceName).register());
         });
@@ -30,7 +32,7 @@ export default class Server {
     }
 
     start(){
-        Server.registerServices();
+        Server.loadServices();
         Server.registerWebApp();
 
         const listenPort = process.env.PORT ?? 9005;
