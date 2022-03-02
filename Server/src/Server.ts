@@ -6,7 +6,7 @@ import Orders from "src/Services/Orders";
 import Auth from "src/Services/Auth";
 
 export default class Server {
-    static services: Map<ServiceEnum, Service>;
+    static services: Map<ServiceEnum, Service> = new Map();
     static app = express();
 
     // default services
