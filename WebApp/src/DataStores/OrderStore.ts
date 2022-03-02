@@ -13,6 +13,7 @@ export default class OrderStore {
 
     private async init(){
         this.initializing = true;
+        this.subscribers.forEach(subscriber => subscriber());
         const ordersCount = (await axios.get("/order/count")).data;
         this.orders = (await axios.get("/order")).data;
         this.initializing = false;
