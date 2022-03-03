@@ -3,6 +3,7 @@ import Server from "src/Server";
 import Orders from "src/Services/Orders";
 import {ServiceEnum} from "src/Services/Enum";
 import constants from "@shared/constants";
+import {randomIntFromInterval, sleep} from "../utils";
 
 function generateOrder(){
     return {
@@ -25,7 +26,11 @@ class customOrdersService extends Orders {
         if(!this.cachedFakedOrder)
             this.cachedFakedOrder = new Array(this.ordersCount).fill(null).map(() => generateOrder());
 
-        return this.cachedFakedOrder.slice(0, constants.ordersPerRequest);
+        // sleep between 1s and 3s
+        await sleep(randomIntFromInterval(1000, 3000));
+
+        const cursorIndex = options.cursor * constants.ordersPerRequest;
+        return this.cachedFakedOrder.slice(cursorIndex, cursorIndex + constants.ordersPerRequest);
     }
 
     async get(id: number): Promise<Order> {

@@ -2,12 +2,15 @@ import React from 'react';
 import {render} from "react-dom";
 import {renderPromise} from "Utils/utils";
 import axios from "axios";
-import constants from "@shared/constants";
 
 const renderContainer = document.getElementById("root");
 
+
 // set baseURL for Services and determines whether to login ou start the app
-function main(){
+async function main(){
+    if(process.env.CONSTANTS_FILE)
+        await import(process.env.CONSTANTS_FILE);
+
     axios.defaults.baseURL = "/api";
 
     return window.location.pathname.match(/^\/login\/?$/) ? login() : start();

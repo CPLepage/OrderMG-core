@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import constants from "@shared/constants";
 
 export default class extends React.Component {
     usernameRef = React.createRef<HTMLInputElement>();
@@ -35,10 +36,36 @@ export default class extends React.Component {
     }
 
     render(){
-        return <form onSubmit={this.login.bind(this)}>
-            <input ref={this.usernameRef} type={"text"} />
-            <input ref={this.passwordRef} type={"password"} />
-            <input type={"submit"}/>
-        </form>
+        return <div style={{
+            height: "100%",
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: constants.backgroundColor
+        }}>
+            <form style={{
+                height: "calc(100% - 12px)",
+                width: "calc(100% - 12px)",
+                maxHeight: 500,
+                maxWidth: 400,
+                borderRadius: 24,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "white"
+            }} onSubmit={this.login.bind(this)}>
+
+
+                <label htmlFor={"email"}>Email/Username:</label>
+                <input ref={this.usernameRef} name={"email"} type={"text"} />
+
+                <label htmlFor={"password"}>Password:</label>
+                <input ref={this.passwordRef} name={"password"} type={"password"} />
+
+                <input type={"submit"} value={"Login"}/>
+            </form>
+        </div>
     }
 }

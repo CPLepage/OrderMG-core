@@ -1,6 +1,7 @@
 import React from "react";
 import {BrowserRouter, NavLink, Route, Routes} from "react-router-dom";
 import ViewLoaderAsync from "ViewRouter/ViewLoaderAsync";
+import NavBar from "ViewRouter/NavBar";
 
 const views = [
     {
@@ -16,18 +17,22 @@ const views = [
 ];
 
 export default function (){
+    const navBarHeight = 50;
     return (
         <BrowserRouter>
-            { views.map((item, index) => <NavLink
-                to={item.slug}
-                key={"link-" + index}
-            >{item.name}</NavLink>)}
-            <Routes>
-                { views.map((item, index) => <Route
-                    path={item.slug}
-                    key={"view-" + index}
-                    element={<ViewLoaderAsync component={item.component} />} /> ) }
-            </Routes>
+            <NavBar height={navBarHeight}>
+                { views.map((item, index) => <NavLink
+                    to={item.slug}
+                    key={"link-" + index}>{item.name}</NavLink>)}
+            </NavBar>
+            <div style={{height: `calc(100% - ${navBarHeight}px)`, width: "100%"}}>
+                <Routes>
+                    { views.map((item, index) => <Route
+                        path={item.slug}
+                        key={"view-" + index}
+                        element={<ViewLoaderAsync component={item.component} />} /> ) }
+                </Routes>
+            </div>
         </BrowserRouter>
     )
 };

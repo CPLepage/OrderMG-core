@@ -3,6 +3,7 @@
         "baseUrl": "./src",
         "esModuleInterop": true,
         "module": "esnext",
+        "target": "ES6",
         "moduleResolution": "node",
         "lib": [
             "ES2020",
@@ -12,6 +13,6 @@
         "paths": {
             "@shared/*": ["../../Shared/*"]
         },
-        "types": ["../Shared/Types/types"]
+        "types": ["../Shared/Types/types", "node"]
     }
 }

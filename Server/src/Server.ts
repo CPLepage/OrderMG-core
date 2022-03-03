@@ -31,7 +31,7 @@ export default class Server {
         });
     }
 
-    start(){
+    async start(){
         Server.loadServices();
         Server.registerWebApp();
 

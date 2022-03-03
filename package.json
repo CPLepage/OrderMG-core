@@ -4,11 +4,12 @@
   "description": "A lightweight and highly adaptable post-sale order management app",
   "main": "dist/index.js",
   "scripts": {
-    "build": "node Server/build && node WebApp/build",
+    "build": "node Build/build",
     "prewatch": "npm run docker",
-    "watch": "node Server/build --watch & node WebApp/build --watch",
+    "watch": "node Build/build --watch",
     "start": "node dist/index",
-    "docker": "docker-compose -p ordermg-core up -d"
+    "docker": "docker-compose -p ordermg-core up -d",
+    "test": ""
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
   "dependencies": {
     "@faker-js/faker": "^6.0.0-alpha.7",
     "@types/express": "^4.17.13",
+    "@types/node": "^17.0.21",
     "@types/react": "^17.0.39",
     "axios": "^0.26.0",
     "esbuild": "^0.14.23",

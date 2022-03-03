@@ -6,8 +6,14 @@ export default class OrderStore {
     loaded: boolean = false;
     loading: boolean = false;
     private subscribers: Set<() => void> = new Set();
-    count: number;
+    private expectedCount: number = 0;
     orders: Order[];
+    get count(): number {
+        if(!this.orders || this.loading)
+            return this.expectedCount;
+
+        return this.orders.length;
+    };
 
     static getInstance(){
         if(!OrderStore.instance)
@@ -16,18 +22,33 @@ export default class OrderStore {
         return OrderStore.instance;
     }
 
-    private async load(){
+    private notifySubscriber(){
+        this.subscribers.forEach(subscriber => subscriber());
+    }
+
+    private async loadOrders(cursor: number){
+        const orders = (await axios.get(`/order?cursor=${cursor}`)).data;
+        this.orders = this.orders.concat(orders);
+        this.notifySubscriber();
+    }
+
+    async load(){
+        this.loaded = true;
         this.loading = true;
 
-        this.count = (await axios.get("/order/count")).data;
+        this.expectedCount = (await axios.get("/order/count")).data;
+        this.orders = [];
 
-        const orderRequests = new Array(this.count / constants.ordersPerRequest)
-        console.log(orderRequests);
+        this.notifySubscriber();
 
-        this.orders = (await axios.get("/order")).data;
-        this.loaded = true;
+        const orderRequests = new Array(Math.ceil(this.count / constants.ordersPerRequest)).fill(null)
+            .map((req, index) => this.loadOrders(index));
 
-        this.subscribers.forEach(subscriber => subscriber());
+        await Promise.all(orderRequests);
+
+        this.loading = false;
+
+        setTimeout(this.notifySubscriber.bind(this), 200);
     }
 
     subscribe(callback: () => void) {

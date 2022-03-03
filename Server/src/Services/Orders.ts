@@ -1,5 +1,6 @@
 import {authMiddleware} from "src/Utils/authMiddleware";
 import Service from "src/Services/Service";
+import constants from "@shared/constants";
 
 
 export default class Orders extends Service {
@@ -27,7 +28,7 @@ export default class Orders extends Service {
         return router;
     }
 
-    async count(options: any): Promise<number> { return 0 };
+    async count(options: any): Promise<number> { return constants.ordersPerRequest };
 
     async list(options: any): Promise<Order[]> { return [] };
 

@@ -3,6 +3,7 @@ import OrderStore from "DataStores/OrderStore";
 import AutoSizer from "react-virtualized-auto-sizer";
 import {FixedSizeList} from "react-window";
 import OrderItem from "Modules/OrdersList/OrderItem";
+import {OrderLoading} from "components/OrderLoading";
 
 export default class extends React.Component{
 
@@ -11,11 +12,11 @@ export default class extends React.Component{
     }
 
     render() {
+        const ordersLoading = OrderLoading();
+        if(ordersLoading)
+            return ordersLoading;
+
         const orders = OrderStore.getInstance().getAll();
-
-        if(orders === null)
-            return "Loading Orders";
-
         return <AutoSizer>{
             ({height, width}) => {
                 return <FixedSizeList
@@ -25,7 +26,7 @@ export default class extends React.Component{
                     itemSize={150}
                 >
                     {({index, style}) => <div style={style}>
-                        <OrderItem order={OrderStore.instance.getAll()[index]} />
+                        <OrderItem order={orders[index]} />
                     </div>}
                 </FixedSizeList>
             }
