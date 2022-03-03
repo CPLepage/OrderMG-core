@@ -5,6 +5,9 @@ const version = require(path.resolve(__dirname, "../version"));
 
 const watcher = process.argv.includes("--watch") ? require("./watch") : false;
 
+// define our constant file
+const constantsFile = process.env.CONSTANT_PATH ?? path.resolve(__dirname, "../Faker/FakerConstants.ts");
+
 // folder paths
 const folderSource = path.resolve(__dirname, "src");
 const folderOutput = path.resolve(__dirname, "../dist/webapp");
@@ -22,6 +25,20 @@ const folderOutput = path.resolve(__dirname, "../dist/webapp");
         bundle: true,
         minify: process.env.NODE_ENV === 'production',
         sourcemap: process.env.NODE_ENV !== 'production',
+
+        plugins: [{
+            name: "constants-override",
+            setup(build) {
+                build.onLoad({ filter:  /constants\.ts$/}, async (args) => {
+                    let content = await fs.promises.readFile(args.path, 'utf8');
+                    content += "\r\n" + "(async () => (await import(\"" + constantsFile + "\")))()";
+                    return {
+                        contents: content,
+                        loader: "ts"
+                    }
+                });
+            }
+        }],
     });
 
     // check for errors

@@ -5,32 +5,28 @@ import {FixedSizeList} from "react-window";
 import OrderItem from "Modules/OrdersList/OrderItem";
 
 export default class extends React.Component{
-    componentDidMount() {
-        if(!OrderStore.instance)
-            return new OrderStore(this.forceUpdate.bind(this));
 
-        OrderStore.instance.subscribe(this.forceUpdate.bind(this));
+    componentDidMount() {
+        OrderStore.getInstance().subscribe(this.forceUpdate.bind(this));
     }
 
     render() {
-        if(!OrderStore.instance)
-            return "Initializing Orders Store...";
+        const orders = OrderStore.getInstance().getAll();
 
-        if(OrderStore.instance.initializing)
-            return "Loading Orders...";
+        if(orders === null)
+            return "Loading Orders";
 
         return <AutoSizer>{
             ({height, width}) => {
                 return <FixedSizeList
                     height={height}
                     width={width}
-                    itemCount={OrderStore.instance.getOrders().length}
+                    itemCount={orders.length}
                     itemSize={150}
                 >
                     {({index, style}) => <div style={style}>
-                            <OrderItem order={OrderStore.instance.getOrders()[index]} />
-                        </div>
-                    }
+                        <OrderItem order={OrderStore.instance.getAll()[index]} />
+                    </div>}
                 </FixedSizeList>
             }
         }</AutoSizer>;

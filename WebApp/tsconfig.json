@@ -10,7 +10,7 @@
         ],
         "jsx": "react",
         "paths": {
-            "@shared/*": ["../Shared/*"]
+            "@shared/*": ["../../Shared/*"]
         },
         "types": ["../Shared/Types/types"]
     }

@@ -1,38 +1,49 @@
 import axios from "axios";
+import constants from "@shared/constants";
 
 export default class OrderStore {
     static instance: OrderStore;
-    public initializing: boolean = false;
+    loaded: boolean = false;
+    loading: boolean = false;
     private subscribers: Set<() => void> = new Set();
+    count: number;
     orders: Order[];
 
-    constructor(subscriber: () => void = null) {
-        OrderStore.instance = this;
+    static getInstance(){
+        if(!OrderStore.instance)
+            OrderStore.instance = new OrderStore();
 
-        if(subscriber)
-            this.subscribe(subscriber);
-
-        this.init();
+        return OrderStore.instance;
     }
 
-    private async init(){
-        this.initializing = true;
-        this.subscribers.forEach(subscriber => subscriber());
-        const ordersCount = (await axios.get("/order/count")).data;
+    private async load(){
+        this.loading = true;
+
+        this.count = (await axios.get("/order/count")).data;
+
+        const orderRequests = new Array(this.count / constants.ordersPerRequest)
+        console.log(orderRequests);
+
         this.orders = (await axios.get("/order")).data;
-        this.initializing = false;
+        this.loaded = true;
+
         this.subscribers.forEach(subscriber => subscriber());
     }
 
-    public subscribe(callback: () => void) {
-        this.subscribers.add(callback);
+    subscribe(callback: () => void) {
+       this.subscribers.add(callback);
     }
 
-    getOrders(): Order[]{
+    getAll(): Order[]{
+        if(!this.loaded) {
+            this.load();
+            return null;
+        }
+
         return this.orders;
     }
 
-    getOrder(id: number){
+    get(id: number){
         for (let i = 0; i < this.orders.length; i++) {
             if(this.orders[i].id === id)
                 return this.orders[i];

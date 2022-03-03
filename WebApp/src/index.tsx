@@ -2,6 +2,7 @@ import React from 'react';
 import {render} from "react-dom";
 import {renderPromise} from "Utils/utils";
 import axios from "axios";
+import constants from "@shared/constants";
 
 const renderContainer = document.getElementById("root");
 

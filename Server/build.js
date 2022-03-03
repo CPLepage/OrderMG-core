@@ -7,8 +7,11 @@ const glob = require("glob");
 const watcher = process.argv.includes("--watch") ? require("./watch") : false;
 
 // define our services files
-const servicesPath = process.env.SERVICES_PATH ?? path.resolve(__dirname, "../Faker");
+const servicesPath = process.env.SERVICES_PATH ?? path.resolve(__dirname, "../Faker/FakerServices");
 const servicesFiles = glob.sync("**/*.ts", {cwd: servicesPath});
+
+// define our constant file
+const constantsFile = process.env.CONSTANT_PATH ?? path.resolve(__dirname, "../Faker/FakerConstants.ts");
 
 // source : https://github.com/evanw/esbuild/issues/438#issuecomment-704644999
 let define = {};
@@ -31,12 +34,21 @@ const sourcePath = path.resolve(__dirname, "src");
         plugins: [{
             name: "services-loader",
             setup(build) {
-                build.onStart(() => {
-                });
-
                 build.onLoad({ filter:  /index\.ts$/}, async (args) => {
                     let content = await fs.promises.readFile(args.path, 'utf8');
                     content += "\r\n" + servicesFiles.map(file => "import \"" + servicesPath + "/" + file + "\"").join("\r\n");
+                    return {
+                        contents: content,
+                        loader: "ts"
+                    }
+                });
+            }
+        }, {
+            name: "constants-override",
+            setup(build) {
+                build.onLoad({ filter:  /constants\.ts$/}, async (args) => {
+                    let content = await fs.promises.readFile(args.path, 'utf8');
+                    content += "\r\n" + "(async () => (await import(\"" + constantsFile + "\")))()";
                     return {
                         contents: content,
                         loader: "ts"
