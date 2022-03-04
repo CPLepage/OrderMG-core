@@ -36,6 +36,8 @@ inside an already convoluted e-commerce platform.
 * [esbuild](https://github.com/evanw/esbuild) : Build tool, Typescript transpiler
 * [MongoDB](https://github.com/mongodb/mongo) : Database
 * [Docker](https://www.docker.com/) : Deployment
+* [Font Awesome](https://fontawesome.com/) : Icons
+* [React-Bootstrap](https://github.com/react-bootstrap/react-bootstrap) : UI Components
 
 ## Roadmap
 

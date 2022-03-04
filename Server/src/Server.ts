@@ -22,7 +22,6 @@ export default class Server {
         });
     }
 
-
     static registerWebApp(){
         const webappFolder = path.resolve(__dirname, './webapp');
         Server.app.use(express.static(webappFolder));

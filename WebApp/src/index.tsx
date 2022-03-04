@@ -5,7 +5,6 @@ import axios from "axios";
 
 const renderContainer = document.getElementById("root");
 
-
 // set baseURL for Services and determines whether to login ou start the app
 async function main(){
     if(process.env.CONSTANTS_FILE)

@@ -27,5 +27,8 @@ export function OrderLoading(){
         </div>
     }
 
+    if(orderStore.loaded && orderStore.count === 0)
+        return <div style={wrapperStyle}>No order found :(</div>
+
     return null;
 }

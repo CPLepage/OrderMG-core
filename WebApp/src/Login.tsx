@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import constants from "@shared/constants";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 export default class extends React.Component {
     usernameRef = React.createRef<HTMLInputElement>();
@@ -44,7 +46,7 @@ export default class extends React.Component {
             alignItems: "center",
             backgroundColor: constants.backgroundColor
         }}>
-            <form style={{
+            <Form style={{
                 height: "calc(100% - 12px)",
                 width: "calc(100% - 12px)",
                 maxHeight: 500,
@@ -57,15 +59,19 @@ export default class extends React.Component {
                 backgroundColor: "white"
             }} onSubmit={this.login.bind(this)}>
 
+                <Form.Group className={"mb-3"}>
+                    <Form.Label>Email/Username</Form.Label>
+                    <Form.Control ref={this.usernameRef} name={"email"} type={"text"} />
+                </Form.Group>
 
-                <label htmlFor={"email"}>Email/Username:</label>
-                <input ref={this.usernameRef} name={"email"} type={"text"} />
-
-                <label htmlFor={"password"}>Password:</label>
-                <input ref={this.passwordRef} name={"password"} type={"password"} />
-
-                <input type={"submit"} value={"Login"}/>
-            </form>
+                <Form.Group className={"mb-3"}>
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control ref={this.passwordRef} name={"password"} type={"password"} />
+                </Form.Group>
+                <Button variant={"primary"} type={"submit"}>
+                    Submit
+                </Button>
+            </Form>
         </div>
     }
 }

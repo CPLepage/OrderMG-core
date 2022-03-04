@@ -93,6 +93,13 @@ async function buildWebApp(){
     const indexHTMLContentUpdated = indexHTMLContent.replace("{VERSION}", versionString);
     fs.writeFileSync(outDir + "/index.html", indexHTMLContentUpdated);
 
+    // copy bootstrap css
+    // esbuild does not support css module import yet
+    const cssFile = "bootstrap.min.css";
+    const cssMapFile = "bootstrap.min.css.map";
+    fs.copyFileSync(path.resolve(__dirname, "../node_modules/bootstrap/dist/css/" + cssFile), outDir + "/" + cssFile);
+    fs.copyFileSync(path.resolve(__dirname, "../node_modules/bootstrap/dist/css/" + cssMapFile), outDir + "/" + cssMapFile);
+
     console.log('\x1b[32m%s\x1b[0m', "Completed WebApp build");
 }
 
