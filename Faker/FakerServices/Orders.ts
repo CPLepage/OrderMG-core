@@ -29,7 +29,8 @@ class customOrdersService extends Orders {
         // sleep between 1s and 3s
         await sleep(randomIntFromInterval(1000, 3000));
 
-        const cursorIndex = options.cursor * constants.ordersPerRequest;
+        const cursorPos = options && options.cursor ? options.cursor : 0;
+        const cursorIndex = cursorPos * constants.ordersPerRequest;
         return this.cachedFakedOrder.slice(cursorIndex, cursorIndex + constants.ordersPerRequest);
     }
 

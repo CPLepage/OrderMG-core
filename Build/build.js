@@ -103,5 +103,47 @@ async function buildWebApp(){
     console.log('\x1b[32m%s\x1b[0m', "Completed WebApp build");
 }
 
+async function buildTests(){
+    const testsPath = path.resolve(__dirname, "../Tests");
+    const testsFiles = glob.sync("**/*.ts", {cwd: testsPath});
+
+    const buildResult = await esbuild.build({
+        entryPoints: testsFiles.map(file => testsPath + "/" + file),
+        outdir: testsPath + "/dist",
+
+        format: "cjs",
+
+        platform: "node",
+
+        plugins: [{
+            name: "services-loader",
+            setup(build) {
+                build.onLoad({ filter:  /index\.ts$/}, async (args) => {
+                    let content = await fs.promises.readFile(args.path, 'utf8');
+                    content += "\r\n" + servicesFiles.map(file => "import \"" + servicesPath + "/" + file + "\"").join("\r\n");
+                    return {
+                        contents: content,
+                        loader: "ts"
+                    }
+                });
+            }
+        }],
+
+        tsconfig: testsPath + "/tsconfig.json",
+
+        bundle: true,
+        sourcemap: true,
+
+        define: {
+            'process.env.CONSTANTS_FILE' : JSON.stringify(constantsFile)
+        },
+        external: ["mocha"]
+    });
+
+    if(buildResult.errors.length === 0)
+        console.log('\x1b[32m%s\x1b[0m', "Completed Tests build");
+}
+
 buildServer();
 buildWebApp();
+buildTests();
