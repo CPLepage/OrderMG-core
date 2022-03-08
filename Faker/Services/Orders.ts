@@ -3,7 +3,7 @@ import Server from "src/Server";
 import Orders from "src/Services/Orders";
 import {ServiceEnum} from "src/Services/Enum";
 import constants from "@shared/constants";
-import {randomIntFromInterval, sleep} from "../utils";
+import {randomIntFromInterval, sleep} from "src/Utils/utils";
 
 function generateOrder(){
     return {
@@ -14,7 +14,7 @@ function generateOrder(){
     }
 }
 
-class customOrdersService extends Orders {
+class fakerOrdersService extends Orders {
     readonly ordersCount = 100;
     cachedFakedOrder;
 
@@ -44,4 +44,4 @@ class customOrdersService extends Orders {
     }
 }
 
-Server.services.set(ServiceEnum.ORDERS, new customOrdersService());
+Server.services.set(ServiceEnum.ORDERS, new fakerOrdersService());

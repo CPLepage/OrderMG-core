@@ -1,9 +1,9 @@
 import express from "express";
+import Auth from "src/Services/Auth";
 import * as path from "path";
 import {ServiceEnum} from "src/Services/Enum";
 import Service from "src/Services/Service";
 import Orders from "src/Services/Orders";
-import Auth from "src/Services/Auth";
 import http from "http";
 
 export default class Server {
@@ -14,7 +14,7 @@ export default class Server {
     // default services
     constructor() {
         Server.services.set(ServiceEnum.ORDERS, new Orders());
-        Server.services.set(ServiceEnum.AUTH,   new Auth());
+        Server.services.set(ServiceEnum.AUTH, new Auth());
     }
 
     static loadServices(){
@@ -32,16 +32,16 @@ export default class Server {
         });
     }
 
-    async start(){
+    static start(silent: boolean = false){
         Server.loadServices();
         Server.registerWebApp();
 
         const listenPort = process.env.PORT ?? 9005;
         Server.httpServer = Server.app.listen(listenPort);
 
+        if(silent)
+            return;
+
         console.log("OrderMG listening at http://localhost:" + listenPort);
     }
 }
-
-setTimeout(new Server().start, 1);
-

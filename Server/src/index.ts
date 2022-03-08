@@ -1,7 +1,3 @@
-import "@shared/constants";
+import {init} from "src/init";
 
-if(process.env.CONSTANTS_FILE)
-    import(process.env.CONSTANTS_FILE);
-
-import "src/Server";
-
+init();

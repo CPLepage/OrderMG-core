@@ -1,7 +1,6 @@
 import {authMiddleware} from "src/Utils/authMiddleware";
 import Service from "src/Services/Service";
 
-
 export default class Auth extends Service {
     register(){
         const router = super.register();

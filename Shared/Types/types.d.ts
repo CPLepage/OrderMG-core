@@ -4,6 +4,6 @@ interface Token {
 }
 
 interface Order {
-    id: Number,
+    id: number,
     [key: string]: any
 }

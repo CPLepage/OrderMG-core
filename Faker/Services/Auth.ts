@@ -14,7 +14,7 @@ class fakerAuthService extends Auth {
     // we'll invalidate our accessToken every ten seconds to test refreshing
     async auth(accessToken: string): Promise<boolean> {
         const accessTokenTimestamp = Number(accessToken);
-        return Date.now() - accessTokenTimestamp < 1000 * 10;
+        return Date.now() - accessTokenTimestamp < (1000 * 10);
     }
 
     async refreshToken(token: Token): Promise<Token> {

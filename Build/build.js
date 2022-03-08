@@ -4,26 +4,42 @@ const esbuild = require("esbuild");
 const fs = require("fs");
 const version = require(path.resolve(__dirname, "../version"));
 
+const outdir = path.resolve(__dirname, "../dist/");
+fs.rmSync(outdir, {recursive: true, force: true});
+
 // check for watcher
 const watcher = process.argv.includes("--watch") ? require("./watch") : false;
 
 // check for faker flag
 const useFaker = process.argv.includes("--faker");
+
+if(useFaker)
+    console.log('\x1b[33m%s\x1b[0m', "Using Faker data");
+
 // define our constants file
-const constantsFile = useFaker ? path.resolve(__dirname, "../Faker/FakerConstants.ts") :
+const constantsFile = useFaker ? path.resolve(__dirname, "../Faker/Constants.ts") :
     process.env.CONSTANTS_FILE;
+
+const constantsDefinition = {
+    'process.env.CONSTANTS_FILE' : JSON.stringify(constantsFile)
+}
+
 // define our services files
-const servicesPath = useFaker ? path.resolve(__dirname, "../Faker/FakerServices") : process.env.SERVICES_PATH;
+const servicesPath = useFaker ? path.resolve(__dirname, "../Faker/Services") : process.env.SERVICES_PATH;
 const servicesFiles = servicesPath ? glob.sync("**/*.ts", {cwd: servicesPath}) : [];
 
-
-async function buildServer(){
+async function buildServer(
+    filename,
+    preventOverrides = false
+) {
     const serverPath = path.resolve(__dirname, "../Server");
     const sourcePath = serverPath + "/src";
 
+    const outname = filename + (preventOverrides ? ".noOverride" : "")
+
     const buildResult = await esbuild.build({
-        entryPoints: [ sourcePath + "/index.ts" ],
-        outdir: path.resolve(__dirname, "../dist"),
+        entryPoints: [ sourcePath + "/" + filename + ".ts" ],
+        outfile: outdir + "/" + outname + ".js",
 
         platform: "node",
 
@@ -32,7 +48,10 @@ async function buildServer(){
         plugins: [{
             name: "services-loader",
             setup(build) {
-                build.onLoad({ filter:  /index\.ts$/}, async (args) => {
+                build.onLoad({ filter:  /include\.ts$/}, async (args) => {
+                    if(preventOverrides)
+                        return;
+
                     let content = await fs.promises.readFile(args.path, 'utf8');
                     content += "\r\n" + servicesFiles.map(file => "import \"" + servicesPath + "/" + file + "\"").join("\r\n");
                     return {
@@ -48,23 +67,22 @@ async function buildServer(){
         bundle: true,
         minify: process.env.NODE_ENV === 'production',
         sourcemap: process.env.NODE_ENV !== 'production',
-        define: {
-            'process.env.CONSTANTS_FILE' : JSON.stringify(constantsFile)
-        }
+        external: ["mocha"],
+        define: constantsDefinition
     });
 
     if(buildResult.errors.length === 0)
-        console.log('\x1b[32m%s\x1b[0m', "Completed Server build");
+        console.log('\x1b[32m%s\x1b[0m', "Completed " + (filename === "index" ? "Server" : outname) + " build");
 }
 
 async function buildWebApp(){
     const webAppPath = path.resolve(__dirname, "../WebApp");
     const sourcePath = webAppPath + "/src";
-    const outDir = path.resolve(__dirname, "../dist/webapp");
+    const webAppOutdir = outdir + "/webapp";
 
     const buildResult = await esbuild.build({
         entryPoints: [ sourcePath + "/index.tsx"],
-        outdir: outDir,
+        outdir: webAppOutdir,
 
         format: "esm",
         splitting: true,
@@ -78,9 +96,7 @@ async function buildWebApp(){
         tsconfig: webAppPath + "/tsconfig.json",
 
         // define our constant file
-        define : {
-            'process.env.CONSTANTS_FILE' : JSON.stringify(constantsFile)
-        }
+        define : constantsDefinition
     });
 
     // check for errors
@@ -91,59 +107,36 @@ async function buildWebApp(){
     const versionString = version.getCurrentVersion() + "-" + version.getCurrentGITHash();
     const indexHTMLContent = fs.readFileSync(sourcePath + "/index.html", {encoding: "utf-8"});
     const indexHTMLContentUpdated = indexHTMLContent.replace("{VERSION}", versionString);
-    fs.writeFileSync(outDir + "/index.html", indexHTMLContentUpdated);
+    fs.writeFileSync(webAppOutdir + "/index.html", indexHTMLContentUpdated);
 
     // copy bootstrap css
     // esbuild does not support css module import yet
     const cssFile = "bootstrap.min.css";
     const cssMapFile = "bootstrap.min.css.map";
-    fs.copyFileSync(path.resolve(__dirname, "../node_modules/bootstrap/dist/css/" + cssFile), outDir + "/" + cssFile);
-    fs.copyFileSync(path.resolve(__dirname, "../node_modules/bootstrap/dist/css/" + cssMapFile), outDir + "/" + cssMapFile);
+    fs.copyFileSync(path.resolve(__dirname, "../node_modules/bootstrap/dist/css/" + cssFile), webAppOutdir + "/" + cssFile);
+    fs.copyFileSync(path.resolve(__dirname, "../node_modules/bootstrap/dist/css/" + cssMapFile), webAppOutdir + "/" + cssMapFile);
 
     console.log('\x1b[32m%s\x1b[0m', "Completed WebApp build");
 }
 
-async function buildTests(){
-    const testsPath = path.resolve(__dirname, "../Tests");
+
+buildServer("index");
+
+// check if for testing
+const forTests = process.argv.includes("--test");
+
+if(forTests){
+    const testsPath =  path.resolve(__dirname, "../Server/src/Tests");
     const testsFiles = glob.sync("**/*.ts", {cwd: testsPath});
 
-    const buildResult = await esbuild.build({
-        entryPoints: testsFiles.map(file => testsPath + "/" + file),
-        outdir: testsPath + "/dist",
+    testsFiles.forEach(file => {
+        buildServer("Tests/" + file.slice(0, -3));
 
-        format: "cjs",
-
-        platform: "node",
-
-        plugins: [{
-            name: "services-loader",
-            setup(build) {
-                build.onLoad({ filter:  /index\.ts$/}, async (args) => {
-                    let content = await fs.promises.readFile(args.path, 'utf8');
-                    content += "\r\n" + servicesFiles.map(file => "import \"" + servicesPath + "/" + file + "\"").join("\r\n");
-                    return {
-                        contents: content,
-                        loader: "ts"
-                    }
-                });
-            }
-        }],
-
-        tsconfig: testsPath + "/tsconfig.json",
-
-        bundle: true,
-        sourcemap: true,
-
-        define: {
-            'process.env.CONSTANTS_FILE' : JSON.stringify(constantsFile)
-        },
-        external: ["mocha"]
+        if(servicesFiles.length)
+            buildServer("Tests/" + file.slice(0, -3), true);
     });
-
-    if(buildResult.errors.length === 0)
-        console.log('\x1b[32m%s\x1b[0m', "Completed Tests build");
 }
 
-buildServer();
+
+
 buildWebApp();
-buildTests();
