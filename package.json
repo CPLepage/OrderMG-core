@@ -9,7 +9,7 @@
     "watch": "node Build/build --watch",
     "start": "node dist/index",
     "docker": "docker-compose -p ordermg-core up -d",
-    "test": "npx mocha \"dist/Tests/**/*.js\" --timeout 50000 --enable-source-maps",
+    "test": "npx mocha \"dist/Tests/**/*.js\" --timeout 20000 --enable-source-maps",
     "coverage": "npx nyc --reporter text-summary --reporter html npm test"
   },
   "repository": {

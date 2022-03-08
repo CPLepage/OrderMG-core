@@ -39,6 +39,7 @@ inside an already convoluted e-commerce platform.
 * [Font Awesome](https://fontawesome.com/) : Icons
 * [React-Bootstrap](https://github.com/react-bootstrap/react-bootstrap) : UI Components
 * [Mocha](https://github.com/mochajs/mocha) : Tests
+* [Istanbul](https://github.com/istanbuljs) : Code Coverage
 
 ## Roadmap
 
