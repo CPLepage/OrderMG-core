@@ -123,9 +123,12 @@ async function buildWebApp(){
 buildServer("index");
 
 // check if for testing
-const forTests = process.argv.includes("--test");
+const withTests = process.argv.includes("--test");
 
-if(forTests){
+if(withTests)
+    console.log('\x1b[33m%s\x1b[0m', "Building Tests");
+
+if(withTests){
     const testsPath =  path.resolve(__dirname, "../Server/src/Tests");
     const testsFiles = glob.sync("**/*.ts", {cwd: testsPath});
 
