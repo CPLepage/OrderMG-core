@@ -14,3 +14,13 @@ export function blobToText(blob: Blob): Promise<string> {
         fileReader.readAsText(blob);
     })
 }
+
+// source: https://stackoverflow.com/a/51567564
+export function isColorLight(color: string){
+    color = color.startsWith("#") ? color.substring(1) : color;
+    const r = parseInt(color.substr(0, 2), 16);
+    const g = parseInt(color.substr(2, 2), 16);
+    const b = parseInt(color.substr(4, 2), 16);
+    const brightness = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+    return brightness > 155;
+}

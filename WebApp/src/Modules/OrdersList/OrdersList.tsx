@@ -25,7 +25,10 @@ export default class extends React.Component{
                     itemCount={orders.length}
                     itemSize={150}
                 >
-                    {({index, style}) => <div style={style}>
+                    {({index, style}) => <div style={{
+                        ...style,
+                        borderBottom: "1px solid lightgray"
+                    }}>
                         <OrderItem order={orders[index]} />
                     </div>}
                 </FixedSizeList>

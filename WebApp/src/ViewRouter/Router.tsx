@@ -22,6 +22,7 @@ export default function (){
         <BrowserRouter>
             <NavBar height={navBarHeight}>
                 { views.map((item, index) => <NavLink
+                    style={{color: "currentColor"}}
                     to={item.slug}
                     key={"link-" + index}>{item.name}</NavLink>)}
             </NavBar>
