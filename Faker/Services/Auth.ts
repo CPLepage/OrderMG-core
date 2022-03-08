@@ -1,13 +1,13 @@
 import Auth from "src/Services/Auth";
 import Server from "src/Server";
 import {ServiceEnum} from "src/Services/Enum";
+import constants from "@shared/constants";
 
 class fakerAuthService extends Auth {
-    readonly fakeUserPass = "ordermg";
     readonly fakeRefreshToken = "ordermg-token";
 
     async login(username: string, password: string): Promise<Token> {
-        return username === this.fakeUserPass && password === this.fakeUserPass ?
+        return username === constants.testUser && password === constants.testPass ?
             {accessToken: Date.now().toString(), refreshToken: this.fakeRefreshToken} : null;
     }
 

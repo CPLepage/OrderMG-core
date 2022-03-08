@@ -4,6 +4,7 @@ import Server from "src/Server";
 import supertest from "supertest";
 import Auth from "src/Services/Auth";
 import {init} from "src/init";
+import constants from "@shared/constants";
 
 describe('Auth', function () {
     let accessToken;
@@ -18,7 +19,8 @@ describe('Auth', function () {
     });
 
     it('/GET auth : should return a Token',  async function (){
-        const response = await supertest(Server.httpServer).get("/api/auth");
+        const response = await supertest(Server.httpServer)
+            .get(`/api/auth?username=${constants.testUser}&password=${constants.testPass}`);
         accessToken = response.body?.accessToken ?? undefined;
         refreshToken = response.body?.refreshToken ?? undefined;
     });
