@@ -7,13 +7,14 @@ import supertest from "supertest";
 import {randomIntFromInterval} from "src/Utils/utils";
 import Auth from "src/Services/Auth";
 import {init} from "src/init";
+import constants from "@shared/constants";
 
 describe('Orders', function () {
     let accessToken;
 
     before(async function (){
         await init(true);
-        const token = (await (Server.services.get(ServiceEnum.AUTH) as Auth).login("ordermg", "ordermg"))
+        const token = (await (Server.services.get(ServiceEnum.AUTH) as Auth).login(constants.testUser, constants.testPass));
         accessToken = token?.accessToken ?? "";
     });
 
