@@ -18,9 +18,16 @@ const views = [
 
 export default function (){
     const navBarHeight = 50;
+
+    let activeViewIndex = 0;
+    views.forEach((view, index) => {
+        if(view.slug === window.location.pathname)
+            activeViewIndex = index;
+    });
+
     return (
         <BrowserRouter>
-            <NavBar height={navBarHeight}>
+            <NavBar height={navBarHeight} defaultActiveViewIndex={activeViewIndex}>
                 { views.map((item, index) => <NavLink
                     style={{color: "currentColor"}}
                     to={item.slug}

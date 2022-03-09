@@ -1,13 +1,13 @@
 import axios from "axios";
 import constants from "@shared/constants";
+import DataStore from "DataStores/DataStore";
 
-export default class OrderStore {
-    static instance: OrderStore;
+export default class OrderStore extends DataStore{
     loaded: boolean = false;
     loading: boolean = false;
-    private subscribers: Set<() => void> = new Set();
     private expectedCount: number = 0;
     orders: Order[];
+
     get count(): number {
         if(!this.orders || this.loading)
             return this.expectedCount;
@@ -15,21 +15,17 @@ export default class OrderStore {
         return this.orders.length;
     };
 
-    static getInstance(){
+    static getInstance(): OrderStore{
         if(!OrderStore.instance)
             OrderStore.instance = new OrderStore();
 
-        return OrderStore.instance;
-    }
-
-    private notifySubscriber(){
-        this.subscribers.forEach(subscriber => subscriber());
+        return OrderStore.instance as OrderStore;
     }
 
     private async loadOrders(cursor: number){
         const orders = (await axios.get(`/order?cursor=${cursor}`)).data;
         this.orders = this.orders.concat(orders);
-        this.notifySubscriber();
+        this.notifySubscribers();
     }
 
     async load(){
@@ -39,7 +35,7 @@ export default class OrderStore {
         this.expectedCount = (await axios.get("/order/count")).data;
         this.orders = [];
 
-        this.notifySubscriber();
+        this.notifySubscribers();
 
         const orderRequests = new Array(Math.ceil(this.count / constants.ordersPerRequest)).fill(null)
             .map((req, index) => this.loadOrders(index));
@@ -48,11 +44,7 @@ export default class OrderStore {
 
         this.loading = false;
 
-        setTimeout(this.notifySubscriber.bind(this), 200);
-    }
-
-    subscribe(callback: () => void) {
-       this.subscribers.add(callback);
+        setTimeout(this.notifySubscribers.bind(this), 200);
     }
 
     getAll(): Order[]{

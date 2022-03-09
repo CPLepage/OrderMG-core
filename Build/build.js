@@ -68,6 +68,11 @@ async function buildServer(
         minify: process.env.NODE_ENV === 'production',
         sourcemap: process.env.NODE_ENV !== 'production',
         external: ["mocha"],
+
+        loader: {
+            ".png": "dataurl"
+        },
+
         define: constantsDefinition
     });
 
@@ -94,6 +99,10 @@ async function buildWebApp(){
         sourcemap: process.env.NODE_ENV !== 'production',
 
         tsconfig: webAppPath + "/tsconfig.json",
+
+        loader: {
+            '.png': 'file'
+        },
 
         // define our constant file
         define : constantsDefinition

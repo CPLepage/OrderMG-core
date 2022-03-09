@@ -3,6 +3,7 @@ import axios from "axios";
 import constants from "@shared/constants";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import {hexToRgb, shadeColor} from "Utils/utils";
 
 export default class extends React.Component {
     usernameRef = React.createRef<HTMLInputElement>();
@@ -38,6 +39,8 @@ export default class extends React.Component {
     }
 
     render(){
+        const shadowColorRGB = hexToRgb(shadeColor(constants.backgroundColor, -40));
+
         return <div style={{
             height: "100%",
             width: "100%",
@@ -56,8 +59,18 @@ export default class extends React.Component {
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "white"
+                backgroundColor: "white",
+                boxShadow: `0px 15px 20px rgb(${shadowColorRGB.r}, ${shadowColorRGB.g}, ${shadowColorRGB.b}, 0.5)`
             }} onSubmit={this.login.bind(this)}>
+
+                <img src={constants.appIcon} style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                    padding: "0 32px 54px",
+                    maxHeight: 180
+                }} alt={"logo"} />
+
 
                 <Form.Group className={"mb-3"}>
                     <Form.Label>Email/Username</Form.Label>
@@ -69,7 +82,7 @@ export default class extends React.Component {
                     <Form.Control ref={this.passwordRef} name={"password"} type={"password"} />
                 </Form.Group>
                 <Button variant={"primary"} type={"submit"}>
-                    Submit
+                    Login
                 </Button>
             </Form>
         </div>

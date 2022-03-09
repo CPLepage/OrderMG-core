@@ -38,6 +38,7 @@ inside an already convoluted e-commerce platform.
 * [Docker](https://www.docker.com/) : Deployment
 * [Font Awesome](https://fontawesome.com/) : Icons
 * [React-Bootstrap](https://github.com/react-bootstrap/react-bootstrap) : UI Components
+* [Styled-Components](https://github.com/styled-components/styled-components) : CSS Styling
 * [Mocha](https://github.com/mochajs/mocha) : Tests
 * [Istanbul](https://github.com/istanbuljs) : Code Coverage
 
