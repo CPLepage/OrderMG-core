@@ -4,6 +4,7 @@ import constants from "@shared/constants";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import {hexToRgb, shadeColor} from "Utils/utils";
+import {t} from "i18next";
 
 export default class extends React.Component {
     usernameRef = React.createRef<HTMLInputElement>();
@@ -71,18 +72,17 @@ export default class extends React.Component {
                     maxHeight: 180
                 }} alt={"logo"} />
 
-
                 <Form.Group className={"mb-3"}>
-                    <Form.Label>Email/Username</Form.Label>
+                    <Form.Label>{t("Email")}/{t("Username")}</Form.Label>
                     <Form.Control ref={this.usernameRef} name={"email"} type={"text"} />
                 </Form.Group>
 
                 <Form.Group className={"mb-3"}>
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label>{t("Password")}</Form.Label>
                     <Form.Control ref={this.passwordRef} name={"password"} type={"password"} />
                 </Form.Group>
                 <Button variant={"primary"} type={"submit"}>
-                    Login
+                    {t("Login")}
                 </Button>
             </Form>
         </div>

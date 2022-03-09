@@ -5,6 +5,7 @@ import {ServiceEnum} from "src/Services/Enum";
 import Service from "src/Services/Service";
 import Orders from "src/Services/Orders";
 import http from "http";
+import Lang from "src/Services/Lang";
 
 export default class Server {
     static services: Map<ServiceEnum, Service> = new Map();
@@ -15,6 +16,7 @@ export default class Server {
     constructor() {
         Server.services.set(ServiceEnum.ORDERS, new Orders());
         Server.services.set(ServiceEnum.AUTH, new Auth());
+        Server.services.set(ServiceEnum.LANG, new Lang());
     }
 
     static loadServices(){

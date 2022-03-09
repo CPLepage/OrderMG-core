@@ -8,5 +8,6 @@ export default class constants {
     static textColorLight = "#F8F9FA"
     static testUser = "";
     static testPass = "";
-    static appIcon = appIcon
+    static appIcon = appIcon;
+    static defaultLang = "en";
 }

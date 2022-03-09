@@ -1,4 +1,5 @@
 export enum ServiceEnum {
     ORDERS = "order",
-    AUTH = "auth"
+    AUTH = "auth",
+    LANG = "lang"
 }

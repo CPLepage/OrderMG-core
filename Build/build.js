@@ -2,13 +2,14 @@ const path = require("path");
 const glob = require("glob");
 const esbuild = require("esbuild");
 const fs = require("fs");
+const postBuildWebApp = require("./postBuildWebApp");
 const version = require(path.resolve(__dirname, "../version"));
 
 const outdir = path.resolve(__dirname, "../dist/");
 fs.rmSync(outdir, {recursive: true, force: true});
 
 // check for watcher
-const watcher = process.argv.includes("--watch") ? require("./watch") : false;
+const watcher = process.argv.includes("--watch") ? require("./watch")(outdir) : false;
 
 // check for faker flag
 const useFaker = process.argv.includes("--faker");
@@ -124,6 +125,8 @@ async function buildWebApp(){
     const cssMapFile = "bootstrap.min.css.map";
     fs.copyFileSync(path.resolve(__dirname, "../node_modules/bootstrap/dist/css/" + cssFile), webAppOutdir + "/" + cssFile);
     fs.copyFileSync(path.resolve(__dirname, "../node_modules/bootstrap/dist/css/" + cssMapFile), webAppOutdir + "/" + cssMapFile);
+
+    postBuildWebApp(outdir);
 
     console.log('\x1b[32m%s\x1b[0m', "Completed WebApp build");
 }

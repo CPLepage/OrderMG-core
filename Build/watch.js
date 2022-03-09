@@ -1,6 +1,7 @@
 const childProcess = require("child_process");
+const postBuildWebApp = require("./postBuildWebApp");
 
-module.exports = {
+module.exports = (outdir) => ({
     server: {
         onRebuild: async function(error, result){
             if (error) console.error('watch build failed:', error)
@@ -14,8 +15,9 @@ module.exports = {
         onRebuild: async function(error, result){
             if (error) console.error('watch build failed:', error)
             else {
+                postBuildWebApp(outdir)
                 console.log("WebApp rebuilt");
             }
         }
     }
-};
+});

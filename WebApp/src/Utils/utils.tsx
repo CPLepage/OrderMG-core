@@ -1,5 +1,7 @@
 import {ReactElement} from "react";
 import {render} from "react-dom";
+import i18next from "i18next";
+import axios from "axios";
 
 export function renderPromise(jsx: ReactElement | string, container: HTMLElement): Promise<void> {
     return new Promise(resolve => render(jsx, container, resolve));
@@ -61,4 +63,14 @@ export function shadeColor(color: string, percent: number) {
     const BB = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
 
     return "#"+RR+GG+BB;
+}
+
+export async function changeLang(langCode: string){
+    let resource = (await axios.get("/lang/" + langCode)).data;
+    Object.keys(resource).forEach(key => {
+        if(!resource[key])
+            delete resource[key];
+    });
+    i18next.addResourceBundle(langCode, 'WebApp', resource);
+    await i18next.changeLanguage(langCode);
 }
