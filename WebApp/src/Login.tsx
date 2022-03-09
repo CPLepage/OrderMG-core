@@ -64,7 +64,7 @@ export default class extends React.Component {
                 boxShadow: `0px 15px 20px rgb(${shadowColorRGB.r}, ${shadowColorRGB.g}, ${shadowColorRGB.b}, 0.5)`
             }} onSubmit={this.login.bind(this)}>
 
-                <img src={constants.appIcon} style={{
+                <img draggable={false} src={constants.appIcon} style={{
                     width: "100%",
                     height: "100%",
                     objectFit: "contain",
