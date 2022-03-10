@@ -26,7 +26,7 @@ const constantsDefinition = {
 }
 
 // define our services files
-const servicesPath = useFaker ? path.resolve(__dirname, "../Faker/Services") : process.env.SERVICES_PATH;
+const servicesPath = useFaker ? path.resolve(__dirname, "../Faker/Services") : process.env.SERVICES_DIR;
 const servicesFiles = servicesPath ? glob.sync("**/*.ts", {cwd: servicesPath}) : [];
 
 async function buildServer(
