@@ -8,11 +8,11 @@ module.exports = (outdir) => {
     if(!fs.existsSync(outputFolder))
         fs.mkdirSync(outputFolder);
 
-    const translationFiles = glob.sync(outputFolder + "/**.json");
+    let translationFiles = glob.sync(outputFolder + "/**.json");
 
     const extraTranslationFiles = process.env.LANGUAGES_DIR;
     if(extraTranslationFiles && fs.existsSync(extraTranslationFiles)){
-        translationFiles.concat(glob.sync(extraTranslationFiles + "/**.json"));
+        translationFiles = translationFiles.concat(glob.sync(extraTranslationFiles + "/**.json"));
     }
 
     const languages = {};
