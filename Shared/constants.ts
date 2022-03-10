@@ -9,5 +9,5 @@ export default class constants {
     static testUser = "";
     static testPass = "";
     static appIcon = appIcon;
-    static defaultLang = "en";
+    static defaultLang = "fr";
 }

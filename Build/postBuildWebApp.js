@@ -9,11 +9,20 @@ module.exports = (outdir) => {
         fs.mkdirSync(outputFolder);
 
     const translationFiles = glob.sync(outputFolder + "/**.json");
+
+    const extraTranslationFiles = process.env.LANGUAGES_DIR;
+    if(extraTranslationFiles && fs.existsSync(extraTranslationFiles)){
+        translationFiles.concat(glob.sync(extraTranslationFiles + "/**.json"));
+    }
+
     const languages = {};
 
     translationFiles.forEach(file => {
         const langCode = file.split("/").pop().slice(0, -5);
-        languages[langCode] = JSON.parse(fs.readFileSync(file, {encoding: "utf-8"}));
+        languages[langCode] = {
+            filePath: file,
+            translations: JSON.parse(fs.readFileSync(file, {encoding: "utf-8"}))
+        };
     });
 
     const files = glob.sync(path.resolve(__dirname, "../WebApp/**/*.{ts,tsx}"));
@@ -23,8 +32,8 @@ module.exports = (outdir) => {
 
     function handleTranslation(key){
         currentKeys.push(key);
-        Object.values(languages).forEach(translations => {
-            translations[key] = translations[key] ?? "";
+        Object.values(languages).forEach(lang => {
+            lang.translations[key] = lang.translations[key] ?? "";
         });
     }
 
@@ -36,18 +45,15 @@ module.exports = (outdir) => {
         )
     });
 
-    const langFiles = Object.entries(languages).map(([langCode, translations]) => {
+    const langFiles = Object.entries(languages).map(([langCode, {filePath, translations}]) => {
         Object.keys(translations).forEach(key => {
             if(!currentKeys.includes(key))
                 delete translations[key];
         });
 
-        const outFile = langCode + ".json"
-        const outPath = outputFolder + "/" + outFile;
+        fs.writeFileSync(filePath, JSON.stringify(translations, null, 2));
 
-        fs.writeFileSync(outPath, JSON.stringify(translations, null, 2));
-
-        return [outPath, outFile];
+        return [filePath, langCode + ".json"];
     });
 
     if(langFiles.length){
