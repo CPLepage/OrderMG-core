@@ -4,5 +4,7 @@
   "Email": "Courriel",
   "Username": "Nom d'utilisateur",
   "Login": "Connexion",
-  "Initializing": "Initialisation"
+  "Initializing": "Initialisation",
+  "Loading Orders": "Chargement des commandes",
+  "No order found": "Aucunes commandes trouvées"
 }

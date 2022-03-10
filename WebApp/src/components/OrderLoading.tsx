@@ -1,6 +1,7 @@
 import OrderStore from "DataStores/OrderStore";
 import React, {CSSProperties} from "react";
 import ProgressBar from "components/ProgressBar";
+import {t} from "i18next";
 
 const wrapperStyle: CSSProperties =  {
     height: "100%",
@@ -16,19 +17,19 @@ export function OrderLoading(){
 
     if(!orderStore.loaded) {
         orderStore.load();
-        return <div style={wrapperStyle}>Loading Orders...</div>;
+        return <div style={wrapperStyle}>{t("Loading Orders")}...</div>;
     }
 
     if(orderStore.loading) {
         return <div style={wrapperStyle}>
-            <div>Loading Orders</div>
+            <div>{t("Loading Orders")}</div>
             <ProgressBar progress={orderStore.getAll().length / orderStore.count} />
             <small>{orderStore.getAll().length + "/" + orderStore.count}</small>
         </div>
     }
 
     if(orderStore.loaded && orderStore.count === 0)
-        return <div style={wrapperStyle}>No order found :(</div>
+        return <div style={wrapperStyle}>{t("No order found")} :(</div>
 
     return null;
 }
