@@ -50,7 +50,7 @@ export default class extends React.Component {
             alignItems: "center",
             backgroundColor: constants.backgroundColor
         }}>
-            <Form style={{
+            <Form className={"p-4"} style={{
                 height: "calc(100% - 12px)",
                 width: "calc(100% - 12px)",
                 maxHeight: 500,
@@ -72,16 +72,16 @@ export default class extends React.Component {
                     maxHeight: 180
                 }} alt={"logo"} />
 
-                <Form.Group className={"mb-3"}>
+                <Form.Group className={"mb-3 w-100"}>
                     <Form.Label>{t("Email")}/{t("Username")}</Form.Label>
                     <Form.Control ref={this.usernameRef} name={"email"} type={"text"} />
                 </Form.Group>
 
-                <Form.Group className={"mb-3"}>
+                <Form.Group className={"mb-3 w-100"}>
                     <Form.Label>{t("Password")}</Form.Label>
                     <Form.Control ref={this.passwordRef} name={"password"} type={"password"} />
                 </Form.Group>
-                <Button variant={"primary"} type={"submit"}>
+                <Button variant={"dark"} type={"submit"}>
                     {t("Login")}
                 </Button>
             </Form>

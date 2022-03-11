@@ -46,7 +46,7 @@ export default class extends React.Component {
                                  onClick={() => this.setState({active: index})}>{viewItem}</NavItem>
                     </Nav.Link>)}
             </Nav>
-            <Logout />
+            <div>{window.localStorage.getItem("accessToken") ? <Logout /> : null}</div>
         </div>
     }
 }
