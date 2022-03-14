@@ -41,7 +41,7 @@ inside an already convoluted e-commerce platform.
 * [Styled-Components](https://github.com/styled-components/styled-components) : CSS Styling
 * [i18next](https://github.com/i18next/i18next) : Translation
 * [Mocha](https://github.com/mochajs/mocha) : Tests
-* [Istanbul](https://github.com/istanbuljs) : Code Coverage
+* [c8](https://github.com/bcoe/c8) : Code Coverage
 
 ## Roadmap
 
