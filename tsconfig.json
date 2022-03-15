@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./",
+        "esModuleInterop": true,
+        "module": "esnext",
+        "target": "ES6",
+        "moduleResolution": "node",
+        "lib": [
+            "ES2020",
+            "dom"
+        ],
+        "jsx": "react",
+        "types": ["../Shared/Types/types", "node"]
+    }
+}

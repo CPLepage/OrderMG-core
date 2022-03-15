@@ -1,3 +1,4 @@
+// @ts-ignore
 import appIcon from "../Resources/Images/app-icon.png"
 
 export default class constants {
@@ -10,4 +11,8 @@ export default class constants {
     static testPass = "";
     static appIcon = appIcon;
     static defaultLang = "en";
+    static defaultColumns: Column[] = [{
+            header: "ID",
+            path: "id"
+    }];
 }

@@ -34,12 +34,11 @@ async function buildServer(
     preventOverrides = false
 ) {
     const serverPath = path.resolve(__dirname, "../Server");
-    const sourcePath = serverPath + "/src";
 
     const outname = filename + (preventOverrides ? ".noOverride" : "")
 
     const buildResult = await esbuild.build({
-        entryPoints: [ sourcePath + "/" + filename + ".ts" ],
+        entryPoints: [ serverPath + "/" + filename + ".ts" ],
         outfile: outdir + "/" + outname + ".js",
 
         platform: "node",
@@ -63,8 +62,6 @@ async function buildServer(
             }
         }],
 
-        tsconfig: serverPath + "/tsconfig.json",
-
         bundle: true,
         minify: process.env.NODE_ENV === 'production',
         sourcemap: process.env.NODE_ENV !== 'production',
@@ -79,15 +76,17 @@ async function buildServer(
 
     if(buildResult.errors.length === 0)
         console.log('\x1b[32m%s\x1b[0m', "Completed " + (filename === "index" ? "Server" : outname) + " build");
+
+    if(watcher)
+        watcher.server.onRebuild(null);
 }
 
 async function buildWebApp(){
     const webAppPath = path.resolve(__dirname, "../WebApp");
-    const sourcePath = webAppPath + "/src";
     const webAppOutdir = outdir + "/webapp";
 
     const buildResult = await esbuild.build({
-        entryPoints: [ sourcePath + "/index.tsx"],
+        entryPoints: [ webAppPath + "/index.tsx"],
         outdir: webAppOutdir,
 
         format: "esm",
@@ -98,8 +97,6 @@ async function buildWebApp(){
         bundle: true,
         minify: process.env.NODE_ENV === 'production',
         sourcemap: process.env.NODE_ENV !== 'production',
-
-        tsconfig: webAppPath + "/tsconfig.json",
 
         loader: {
             '.png': 'file'
@@ -115,7 +112,7 @@ async function buildWebApp(){
 
     // setup index.html file
     const versionString = version.getCurrentVersion() + "-" + version.getCurrentGITHash();
-    const indexHTMLContent = fs.readFileSync(sourcePath + "/index.html", {encoding: "utf-8"});
+    const indexHTMLContent = fs.readFileSync(webAppPath + "/index.html", {encoding: "utf-8"});
     const indexHTMLContentUpdated = indexHTMLContent.replace("{VERSION}", versionString);
     fs.writeFileSync(webAppOutdir + "/index.html", indexHTMLContentUpdated);
 

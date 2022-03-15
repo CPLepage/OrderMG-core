@@ -1,9 +1,9 @@
 import faker from "@faker-js/faker";
-import Server from "src/Server";
-import Orders from "src/Services/Orders";
-import {ServiceEnum} from "src/Services/Enum";
-import constants from "@shared/constants";
-import {randomIntFromInterval, sleep} from "src/Utils/utils";
+import Server from "Server/Server";
+import Orders from "Server/Services/Orders";
+import {ServiceEnum} from "Server/Services/Enum";
+import constants from "Shared/constants";
+import {randomIntFromInterval, sleep} from "Server/Utils/utils";
 
 function generateOrder(){
     return {

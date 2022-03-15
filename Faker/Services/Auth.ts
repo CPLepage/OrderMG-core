@@ -1,7 +1,7 @@
-import Auth from "src/Services/Auth";
-import Server from "src/Server";
-import {ServiceEnum} from "src/Services/Enum";
-import constants from "@shared/constants";
+import Auth from "Server/Services/Auth";
+import Server from "Server/Server";
+import {ServiceEnum} from "Server/Services/Enum";
+import constants from "Shared/constants";
 
 class fakerAuthService extends Auth {
     readonly fakeRefreshToken = "ordermg-token";

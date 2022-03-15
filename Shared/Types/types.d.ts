@@ -20,3 +20,12 @@ declare module "*.png" {
     const value: string;
     export default value;
 }
+
+declare type Path = string | string[]
+
+interface Column {
+    header: string,
+    path: Path,
+    defaultWidth?: number,
+    renderer?(): any // ReactElement
+}
