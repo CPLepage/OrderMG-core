@@ -6,6 +6,7 @@ import OrderItem from "WebApp/Modules/OrdersList/OrderItem";
 import {OrderLoading} from "WebApp/components/OrderLoading";
 import Headers from "WebApp/Modules/OrdersList/Headers";
 import constants from "Shared/constants";
+import CalcListWidth from "WebApp/Modules/OrdersList/CalcListWidth";
 
 export default class extends React.Component{
     readonly HEADER_HEIGHT = 50;
@@ -21,21 +22,23 @@ export default class extends React.Component{
 
         const orders = OrderStore.getInstance().getAll();
 
-        return <AutoSizer>{({height, width}) => {
-            return <FixedSizeList
-                height={height}
-                width={width}
-                itemCount={orders.length}
-                itemSize={150}
-            >
-                {({index, style}) => <div style={{
-                    ...style,
-                    borderBottom: "1px solid lightgray"
-                }}>
-                    <OrderItem order={orders[index]} />
-                </div>}
-            </FixedSizeList>}}
-        </AutoSizer>
+        return <div style={{height: `calc(100% - ${this.HEADER_HEIGHT}px)`, width: CalcListWidth()}}>
+                <AutoSizer>{({height, width}) => {
+                return <FixedSizeList
+                    height={height}
+                    width={width}
+                    itemCount={orders.length}
+                    itemSize={150}
+                >
+                    {({index, style}) => <div style={{
+                        ...style,
+                        borderBottom: "1px solid lightgray"
+                    }}>
+                        <OrderItem order={orders[index]} />
+                    </div>}
+                </FixedSizeList>}}
+            </AutoSizer>
+        </div>
     }
 
     render() {
@@ -43,9 +46,7 @@ export default class extends React.Component{
             <div style={{height: this.HEADER_HEIGHT, width: "100%"}}>
                 <Headers columns={constants.defaultColumns} />
             </div>
-            <div style={{height: `calc(100% - ${this.HEADER_HEIGHT}px)`, width: "100%"}}>
-                {this.renderListOrLoading()}
-            </div>
+            {this.renderListOrLoading()}
         </div>;
     }
 }

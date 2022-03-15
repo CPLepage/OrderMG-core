@@ -14,7 +14,7 @@ const centerContainerStyle = {
     justifyContent: "center"
 };
 
-// set baseURL for Services and determines whether to login ou start the app
+// set baseURL for Services and determines whether to login or start the app
 async function main(){
     if(process.env.CONSTANTS_FILE)
         await import(process.env.CONSTANTS_FILE);
