@@ -29,16 +29,23 @@ const constantsDefinition = {
 const servicesPath = useFaker ? path.resolve(__dirname, "../Faker/Services") : process.env.SERVICES_DIR;
 const servicesFiles = servicesPath ? glob.sync("**/*.ts", {cwd: servicesPath}) : [];
 
+const serverDir = path.resolve(__dirname, "../Server");
+const webAppDir = path.resolve(__dirname, "../WebApp");
+
 async function buildServer(
     filename,
-    preventOverrides = false
+    dir = null,
+    preventOverrides = false,
+    srcDir = null
 ) {
-    const serverPath = path.resolve(__dirname, "../Server");
+    const file = (srcDir ?? serverDir) + "/" + filename;
 
-    const outname = filename + (preventOverrides ? ".noOverride" : "")
+    const outname = filename.endsWith(".test.ts") ?
+        "Tests/" + dir + "/" + filename.replace(".test.ts", "") + (preventOverrides ? ".noOverride" : "") :
+        filename;
 
     const buildResult = await esbuild.build({
-        entryPoints: [ serverPath + "/" + filename + ".ts" ],
+        entryPoints: [ file ],
         outfile: outdir + "/" + outname + ".js",
 
         platform: "node",
@@ -65,7 +72,7 @@ async function buildServer(
         bundle: true,
         minify: process.env.NODE_ENV === 'production',
         sourcemap: process.env.NODE_ENV !== 'production',
-        external: ["mocha"],
+        external: ["mocha", "puppeteer", "v8-to-istanbul"],
 
         loader: {
             ".png": "dataurl"
@@ -75,18 +82,20 @@ async function buildServer(
     });
 
     if(buildResult.errors.length === 0)
-        console.log('\x1b[32m%s\x1b[0m', "Completed " + (filename === "index" ? "Server" : outname) + " build");
+        console.log('\x1b[32m%s\x1b[0m', "Built " + file);
 
     if(watcher)
         watcher.server.onRebuild(null);
+
+    return outname;
 }
 
-async function buildWebApp(){
-    const webAppPath = path.resolve(__dirname, "../WebApp");
-    const webAppOutdir = outdir + "/webapp";
+async function buildWebApp(dir = ""){
+    const adjustedOutDir = outdir + (dir ? "/" + dir : "");
+    const webAppOutdir = adjustedOutDir + "/webapp";
 
     const buildResult = await esbuild.build({
-        entryPoints: [ webAppPath + "/index.tsx"],
+        entryPoints: [ webAppDir + "/index"],
         outdir: webAppOutdir,
 
         format: "esm",
@@ -112,7 +121,7 @@ async function buildWebApp(){
 
     // setup index.html file
     const versionString = version.getCurrentVersion() + "-" + version.getCurrentGITHash();
-    const indexHTMLContent = fs.readFileSync(webAppPath + "/index.html", {encoding: "utf-8"});
+    const indexHTMLContent = fs.readFileSync(webAppDir + "/index.html", {encoding: "utf-8"});
     const indexHTMLContentUpdated = indexHTMLContent.replace("{VERSION}", versionString);
     fs.writeFileSync(webAppOutdir + "/index.html", indexHTMLContentUpdated);
 
@@ -123,32 +132,34 @@ async function buildWebApp(){
     fs.copyFileSync(path.resolve(__dirname, "../node_modules/bootstrap/dist/css/" + cssFile), webAppOutdir + "/" + cssFile);
     fs.copyFileSync(path.resolve(__dirname, "../node_modules/bootstrap/dist/css/" + cssMapFile), webAppOutdir + "/" + cssMapFile);
 
-    postBuildWebApp(outdir);
+    postBuildWebApp(adjustedOutDir);
 
-    console.log('\x1b[32m%s\x1b[0m', "Completed WebApp build");
+    console.log('\x1b[32m%s\x1b[0m', "Built " + webAppOutdir);
 }
 
-
-buildServer("index");
-
-// check if for testing
-const withTests = process.argv.includes("--test");
-
-if(withTests)
+function buildTests(){
     console.log('\x1b[33m%s\x1b[0m', "Building Tests");
 
-if(withTests){
-    const testsPath =  path.resolve(__dirname, "../Server/src/Tests");
-    const testsFiles = glob.sync("**/*.ts", {cwd: testsPath});
+    const testsFilesServer = glob.sync("**/*.test.ts", {cwd: serverDir});
 
-    testsFiles.forEach(file => {
-        buildServer("Tests/" + file.slice(0, -3));
+    testsFilesServer.forEach(file => {
+        buildServer(file, "Server");
 
         if(servicesFiles.length)
-            buildServer("Tests/" + file.slice(0, -3), true);
+            buildServer(file, "Server", true);
     });
+
+    const testFilesWebApp = glob.sync("**/*.test.ts", {cwd: webAppDir});
+
+    testFilesWebApp.forEach(async file => {
+        const outname = await buildServer(file, "WebApp", false, webAppDir);
+        buildWebApp(outname.split("/").slice(0, -1).join("/"));
+    })
 }
 
-
-
+buildServer("index");
 buildWebApp();
+
+// check if for testing
+if(process.argv.includes("--test"))
+    buildTests();

@@ -1,8 +1,8 @@
 import React from "react";
 import constants from "Shared/constants";
 import getValue from "Shared/Utils/getValue";
-import Cell from "WebApp/Modules/OrdersList/Cell";
-import CalcListWidth from "WebApp/Modules/OrdersList/CalcListWidth";
+import Cell from "WebApp/Modules/OrderList/Cell";
+import CalcListWidth from "WebApp/Modules/OrderList/CalcListWidth";
 
 export default class extends React.Component {
     props: {

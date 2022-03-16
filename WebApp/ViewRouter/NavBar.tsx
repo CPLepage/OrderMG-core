@@ -1,6 +1,6 @@
 import React, {ReactElement} from "react";
 import constants from "Shared/constants";
-import Logout from "WebApp/Modules/Logout";
+import Logout from "WebApp/Modules/Logout/Logout";
 import Nav from "react-bootstrap/Nav";
 import {isColorLight} from "WebApp/Utils/utils";
 import styled from "styled-components";
@@ -28,7 +28,7 @@ export default class extends React.Component {
     render(){
         const linkColor = isColorLight(constants.backgroundColor) ? constants.textColorDark : constants.textColorLight;
 
-        return <div style={{
+        return <div id={"nav-bar"} style={{
             height: this.props.height,
             width: "100%",
             backgroundColor: constants.backgroundColor,

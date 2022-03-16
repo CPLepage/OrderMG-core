@@ -74,14 +74,14 @@ export default class extends React.Component {
 
                 <Form.Group className={"mb-3 w-100"}>
                     <Form.Label>{t("Email")}/{t("Username")}</Form.Label>
-                    <Form.Control ref={this.usernameRef} name={"email"} type={"text"} />
+                    <Form.Control id={"username"} ref={this.usernameRef} name={"email"} type={"text"} />
                 </Form.Group>
 
                 <Form.Group className={"mb-3 w-100"}>
                     <Form.Label>{t("Password")}</Form.Label>
-                    <Form.Control ref={this.passwordRef} name={"password"} type={"password"} />
+                    <Form.Control id={"password"} ref={this.passwordRef} name={"password"} type={"password"} />
                 </Form.Group>
-                <Button variant={"dark"} type={"submit"}>
+                <Button id={"login"} variant={"dark"} type={"submit"}>
                     {t("Login")}
                 </Button>
             </Form>

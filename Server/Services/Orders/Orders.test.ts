@@ -1,11 +1,11 @@
 import {after, describe, it} from "mocha";
 import * as assert from "assert";
 import Server from "Server/Server";
-import Orders from "Server/Services/Orders";
+import Orders from "Server/Services/Orders/Orders";
 import {ServiceEnum} from "Server/Services/Enum";
 import supertest from "supertest";
 import {randomIntFromInterval} from "Server/Utils/utils";
-import Auth from "Server/Services/Auth";
+import Auth from "Server/Services/Auth/Auth";
 import {init} from "Server/init";
 import constants from "Shared/constants";
 

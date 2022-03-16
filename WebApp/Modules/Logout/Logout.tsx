@@ -18,7 +18,7 @@ function renderLoggingOutView(){
 }
 
 export default function() {
-    return <Button variant={"danger"} onClick={async () => {
+    return <Button id={"logout"} variant={"danger"} onClick={async () => {
         renderLoggingOutView();
 
         await axios.get("/auth/loggout");

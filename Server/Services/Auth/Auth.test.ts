@@ -2,7 +2,7 @@ import {after, describe, it} from "mocha";
 import * as assert from "assert";
 import Server from "Server/Server";
 import supertest from "supertest";
-import Auth from "Server/Services/Auth";
+import Auth from "Server/Services/Auth/Auth";
 import {init} from "Server/init";
 import constants from "Shared/constants";
 
@@ -11,7 +11,7 @@ describe('Auth', function () {
     let refreshToken;
 
     before(async function () {
-        await init(true)
+        await init(true);
     });
 
     after(function () {

@@ -2,11 +2,11 @@ import React from "react";
 import OrderStore from "WebApp/DataStores/OrderStore";
 import AutoSizer from "react-virtualized-auto-sizer";
 import {FixedSizeList} from "react-window";
-import OrderItem from "WebApp/Modules/OrdersList/OrderItem";
+import OrderItem from "WebApp/Modules/OrderList/OrderItem";
 import {OrderLoading} from "WebApp/components/OrderLoading";
-import Headers from "WebApp/Modules/OrdersList/Headers";
+import Headers from "WebApp/Modules/OrderList/Headers";
 import constants from "Shared/constants";
-import CalcListWidth from "WebApp/Modules/OrdersList/CalcListWidth";
+import CalcListWidth from "WebApp/Modules/OrderList/CalcListWidth";
 
 export default class extends React.Component{
     readonly HEADER_HEIGHT = 50;

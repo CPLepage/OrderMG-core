@@ -1,4 +1,4 @@
-import Auth from "Server/Services/Auth";
+import Auth from "Server/Services/Auth/Auth";
 import Server from "Server/Server";
 import {ServiceEnum} from "Server/Services/Enum";
 import constants from "Shared/constants";

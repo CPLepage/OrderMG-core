@@ -1,6 +1,6 @@
 import React from "react";
-import OrdersList from "WebApp/Modules/OrdersList/OrdersList";
+import OrderList from "WebApp/Modules/OrderList/OrderList";
 
 export default function(){
-    return <OrdersList />;
+    return <OrderList />;
 }

@@ -1,11 +1,11 @@
 import express from "express";
-import Auth from "Server/Services/Auth";
+import Auth from "Server/Services/Auth/Auth";
 import * as path from "path";
 import {ServiceEnum} from "Server/Services/Enum";
 import Service from "Server/Services/Service";
-import Orders from "Server/Services/Orders";
+import Orders from "Server/Services/Orders/Orders";
 import http from "http";
-import Lang from "Server/Services/Lang";
+import Lang from "Server/Services/Lang/Lang";
 
 export default class Server {
     static services: Map<ServiceEnum, Service> = new Map();

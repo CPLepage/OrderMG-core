@@ -15,7 +15,7 @@ const centerContainerStyle = {
 };
 
 // set baseURL for Services and determines whether to login or start the app
-async function main(){
+export async function main(){
     if(process.env.CONSTANTS_FILE)
         await import(process.env.CONSTANTS_FILE);
 
@@ -38,7 +38,7 @@ async function initLang(){
 
 // async import login and render
 async function login(){
-    const LoginView = (await import("WebApp/Login")).default;
+    const LoginView = (await import("WebApp/Login/Login")).default;
     render(<LoginView />, renderContainer);
 }
 
@@ -56,5 +56,3 @@ async function start(){
     const ViewRouter = (await import("WebApp/ViewRouter/Router")).default;
     render(<ViewRouter />, renderContainer);
 }
-
-main();

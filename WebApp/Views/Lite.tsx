@@ -1,5 +1,5 @@
 import React from "react";
-import OrdersList from "WebApp/Modules/OrdersList/OrdersList";
+import OrderList from "WebApp/Modules/OrderList/OrderList";
 
 export default class extends React.Component {
     render(){
@@ -7,7 +7,7 @@ export default class extends React.Component {
             display: "flex",
             height: "100%"
         }}>
-            <div style={{width: 300, borderRight: "1px solid lightgray"}}><OrdersList /></div>
+            <div style={{width: 300, borderRight: "1px solid lightgray"}}><OrderList /></div>
             <div style={{width: "calc(100% - 300px)"}}>Allo</div>
         </div>;
     }

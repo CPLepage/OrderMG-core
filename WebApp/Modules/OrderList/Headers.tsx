@@ -1,8 +1,8 @@
 import React from "react";
 import constants from "Shared/constants";
-import Cell from "WebApp/Modules/OrdersList/Cell";
+import Cell from "WebApp/Modules/OrderList/Cell";
 import styled from "styled-components";
-import CalcListWidth from "WebApp/Modules/OrdersList/CalcListWidth";
+import CalcListWidth from "WebApp/Modules/OrderList/CalcListWidth";
 
 export default function(props: {columns: Column[]}) {
     return <div style={{

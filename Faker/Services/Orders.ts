@@ -1,6 +1,6 @@
 import faker from "@faker-js/faker";
 import Server from "Server/Server";
-import Orders from "Server/Services/Orders";
+import Orders from "Server/Services/Orders/Orders";
 import {ServiceEnum} from "Server/Services/Enum";
 import constants from "Shared/constants";
 import {randomIntFromInterval, sleep} from "Server/Utils/utils";
