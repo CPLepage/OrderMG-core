@@ -1,3 +1,4 @@
+![ts](https://badgen.net/badge/-/TypeScript?icon=typescript&label&labelColor=blue&color=555555)
 # Order MG
 A lightweight and highly adaptable post-sale order management app
 
@@ -41,7 +42,7 @@ inside an already convoluted e-commerce platform.
 * [Styled-Components](https://github.com/styled-components/styled-components) : CSS Styling
 * [i18next](https://github.com/i18next/i18next) : Translation
 * [Mocha](https://github.com/mochajs/mocha) : Tests
-* [c8](https://github.com/bcoe/c8) : Code Coverage
+* [Istanbul/nyc](https://github.com/istanbuljs/nyc) : Code Coverage
 
 ## Roadmap
 
