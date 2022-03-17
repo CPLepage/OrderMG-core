@@ -1,4 +1,3 @@
-![ts](https://badgen.net/badge/-/TypeScript?icon=typescript&label&labelColor=blue&color=555555)
 # Order MG
 A lightweight and highly adaptable post-sale order management app
 
